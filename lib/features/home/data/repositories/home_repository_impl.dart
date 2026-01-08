@@ -56,7 +56,7 @@ class HomeRepositoryImpl implements HomeRepositoryApi {
           'exchange': exchange,
           'market': 'spot',
           'page': 1,
-          'page_size': 20,
+          'page_size': 100,
         },
       );
       return MarketResponse.fromJson(response.data).result.spot;

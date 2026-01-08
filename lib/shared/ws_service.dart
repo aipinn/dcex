@@ -5,29 +5,6 @@ import 'package:dcex/constants/api_const.dart';
 import 'package:dcex/shared/utils/logger.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-// 	•	  Transport / Service 分层 正确
-// 	•	  WebSocket → Stream 抽象 正确
-// 	•	  WS 消息 还没有进入业务
-// 	•	  订阅 / 分发 / 取消订阅 还没实现
-// ==================================
-// •	❌ 自动重连
-// •	  心跳 ping/pong
-// •	❌ 批量 subscribe
-// •	❌ ChannelWebSocketTransport
-// •	❌ 合并行情流
-
-// WebSocket JSON
-//    ↓
-// Map<String, dynamic>
-//    ↓
-// PairSummary.fromJson
-//    ↓
-// Stream<PairSummary>
-//    ↓
-// StreamProvider.family<PairSummary, String>
-//    ↓
-// PairTitleWidget
-
 abstract class WsTransport {
   Stream<String> get stream;
   void send(String data);
@@ -195,7 +172,7 @@ class WsService {
       // Waiting for pong response
       _pongTimeoutTimer?.cancel();
       _pongTimeoutTimer = Timer(_pongInterval, () {
-        logWarning('pong timeout, try to reconnect.');
+        logWarning('ws pong timeout, try to reconnect.');
         _handleHeartbeatTimeout();
       });
     });

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:dcex/constants/defaluts_preferences.dart';
 import 'package:dcex/features/settings/data/models/settings_section.dart';
 import 'package:dcex/features/settings/data/models/settings_detail/settings_detail.dart';
+import 'package:dcex/shared/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -60,6 +61,13 @@ final settingsDataProvider = FutureProvider<List<SettingsSection>>((ref) async {
   ];
 
   return sections;
+});
+
+final favoriteExchangeProvider = FutureProvider<String>((ref) async {
+  logInfo("setting favorite exchange changed");
+  return await ref.watch(
+    settingsProvider.selectAsync((s) => s.favoriteExchange),
+  );
 });
 
 /// Settings provider
@@ -141,6 +149,8 @@ class SettingsNotifier extends AsyncNotifier<SettingsDetail> {
     state = AsyncValue.data(prev.copyWith(favoriteExchange: exchange));
 
     await ref.read(databaseProvider).write(key: 'exchange', value: exchange);
+
+    ref.invalidate(favoriteExchangeProvider);
   }
 
   /// Verify the selected favorite pair is supported by the selected exchange or not

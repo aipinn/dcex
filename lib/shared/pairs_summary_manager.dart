@@ -21,12 +21,24 @@ class PairsSummaryManager {
   // Debouncers
   final Map<String, Debouncer> _debouncers = {};
 
-  Stream<PairSummary>? getTicker(String symbol) {
-    return _tickerControllers[symbol]?.stream;
+  Stream<PairSummary> getTicker(String symbol) {
+    final controller = _getController(symbol);
+    return controller.stream;
   }
 
   PairSummary? getLastValue(String symbol) {
     return _lastValues[symbol];
+  }
+
+  Set<String> getAllSymbols() {
+    return _tickerControllers.keys.toSet();
+  }
+
+  Set<String> getAllActiveSymbols() {
+    return _subscriptionCounts.entries
+        .where((e) => e.value > 0)
+        .map((e) => e.key)
+        .toSet();
   }
 
   void dispose() {
@@ -56,15 +68,13 @@ class PairsSummaryManager {
 
     // Increasing refcount
     _subscriptionCounts[symbol] = (_subscriptionCounts[symbol] ?? 0) + 1;
-
-    // Return existing or create new controller
-    final controller = _tickerControllers.putIfAbsent(symbol, () {
-      return StreamController<PairSummary>.broadcast();
-    });
-
     if (_subscriptionCounts[symbol] == 1) {
       _sendSubscribe(symbol);
     }
+
+    // Return existing or create new controller
+    final controller = _getController(symbol);
+
     return controller.stream;
   }
 
@@ -108,6 +118,13 @@ class PairsSummaryManager {
     }
   }
 
+  StreamController<PairSummary> _getController(String symbol) {
+    final controller = _tickerControllers.putIfAbsent(symbol, () {
+      return StreamController<PairSummary>.broadcast();
+    });
+    return controller;
+  }
+
   void _performUnsubscribe(String symbol) {
     // logInfo('❌ unsubscribe: $symbol');
     // Close controller
@@ -117,7 +134,7 @@ class PairsSummaryManager {
     // Clear refcount
     _subscriptionCounts.remove(symbol);
     // Clear last value
-    _lastValues.remove(symbol);
+    // _lastValues.remove(symbol);
     // Send unsubscribe message
     _sendUnsubscribe(symbol);
   }

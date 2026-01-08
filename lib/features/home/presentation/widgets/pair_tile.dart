@@ -4,10 +4,12 @@ import 'package:dcex/features/details/data/models/markets/pair/pair.dart';
 import 'package:dcex/features/details/providers/details_provider.dart';
 import 'package:dcex/features/home/data/models/pair/pair_summary/pair_summary.dart';
 import 'package:dcex/features/home/providers/home_provider.dart';
-import 'package:dcex/features/home/providers/pair_ws_provider.dart';
+import 'package:dcex/features/home/providers/home_ux_provider.dart';
+import 'package:dcex/features/home/providers/home_pair_ws_provider.dart';
 import 'package:dcex/routes/router.dart';
 import 'package:dcex/features/details/presentation/widgets/async_section.dart';
 import 'package:dcex/features/details/presentation/widgets/line_widget.dart';
+import 'package:dcex/shared/pairs_summary_manager_provider.dart';
 import 'package:dcex/shared/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -191,13 +193,6 @@ class PairTitleWidget extends ConsumerWidget {
   }
 
   void _pushToDetailPage(BuildContext context) {
-    final symbol = pair.pair;
-    // 1.
-    PairDetailRouter(symbol: symbol).push(context);
-    // 2.
-    // final encodedSymbol = Uri.encodeComponent(symbol);
-    // gorouter.push('/pairdetails/$encodedSymbol');
-    // 3.
-    // context.push('/pairdetails/$encodedSymbol');
+    PairDetailRouter(symbol: pair.pair).push(context);
   }
 }

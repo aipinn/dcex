@@ -6,44 +6,7 @@ import 'package:dcex/features/settings/providers/settings_provider.dart';
 import 'package:dcex/features/details/data/models/markets/pair/pair.dart';
 import 'package:dcex/features/home/data/models/pair/pair_summary/pair_summary.dart';
 import 'package:dcex/shared/utils/logger.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-/// Get pair list
-/// 废弃，体验不好
-/// 此方案，当切换exchange后，其依赖的settingsProvider改变，会导致pairsProvider dispose，
-/// 当返回Home进行watch后重建，此时才去获取最新数据 首页进度loading状态，体验不好，使用NotifierProvider方式
-final pairsProvider1 = FutureProvider<List<Pair>>((ref) async {
-  logInfo('🔥 pairsProvider 创建');
-  ref.onDispose(() {
-    logInfo('🔥 pairsProvider 被销毁');
-  });
-
-  ref.onAddListener(() {
-    logInfo('🔥 pairsProvider addListener');
-  });
-
-  ref.onRemoveListener(() {
-    logInfo('🔥 pairsProvider removeListener');
-  });
-
-  ref.onCancel(() {
-    logInfo('🔥 pairsProvider cancel');
-  });
-
-  // ✅ 改用这种方式，持续监听 settingsProvider
-  final exchangeName = await ref.watch(
-    settingsProvider.selectAsync((s) => s.favoriteExchange),
-  );
-
-  logInfo('🔥 获取数据: $exchangeName');
-  List<Pair> pairs = await ref
-      .read(homeRepositoryProvider)
-      .getPairs(exchangeName);
-
-  logInfo('🔥 完成: ${pairs.length}');
-  return pairs;
-});
 
 /// Get exchange list
 final exchangesProvider = FutureProvider<List<Exchange>>((ref) async {
@@ -58,9 +21,6 @@ final pairSummaryProvider = FutureProvider.family<PairSummary, Pair>((
   ref,
   pair,
 ) async {
-  final cancelToken = CancelToken();
-  ref.onDispose(() => cancelToken.cancel());
-
   final pairSummary = await ref
       .read(homeRepositoryProvider)
       .getPairSummary(pair.exchange, pair.pair);
@@ -136,6 +96,42 @@ class PairsNotifier extends Notifier<AsyncValue<List<Pair>>> {
     }
   }
 }
+
+/// Get pair list
+/// 废弃，体验不好
+/// 此方案，当切换exchange后，其依赖的settingsProvider改变，会导致pairsProvider dispose，
+/// 当返回Home进行watch后重建，此时才去获取最新数据 首页进度loading状态，体验不好，使用NotifierProvider方式
+final pairsProvider2 = FutureProvider<List<Pair>>((ref) async {
+  logInfo('🔥 pairsProvider 创建');
+  ref.onDispose(() {
+    logInfo('🔥 pairsProvider 被销毁');
+  });
+
+  ref.onAddListener(() {
+    logInfo('🔥 pairsProvider addListener');
+  });
+
+  ref.onRemoveListener(() {
+    logInfo('🔥 pairsProvider removeListener');
+  });
+
+  ref.onCancel(() {
+    logInfo('🔥 pairsProvider cancel');
+  });
+
+  // ✅ 改用这种方式，持续监听 settingsProvider
+  final exchangeName = await ref.watch(
+    settingsProvider.selectAsync((s) => s.favoriteExchange),
+  );
+
+  logInfo('🔥 获取数据: $exchangeName');
+  List<Pair> pairs = await ref
+      .read(homeRepositoryProvider)
+      .getPairs(exchangeName);
+
+  logInfo('🔥 完成: ${pairs.length}');
+  return pairs;
+});
 
 /// 可行但不推荐的方案
 final pairsProvider3 = StreamProvider<List<Pair>>((ref) {

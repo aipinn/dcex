@@ -15,7 +15,7 @@ import 'package:dcex/shared/ws_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dcex/shared/utils/logger.dart';
 
-/// StreamNotifierProvider 管理 WebSocket 全局单例
+/// StreamNotifierProvider 管理 WebSocket
 /// 自动根据 settingsProvider 的交易所变化切换
 final wsServiceStreamProvider =
     StreamNotifierProvider<WsServiceNotifier, WsService?>(
