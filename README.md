@@ -36,11 +36,7 @@ Expect breaking changes during development.
 
 Here are some screenshots of the main pages of the app:
 
-<img src="screenshots/home.PNG" width="200" />
-<img src="screenshots/details_1.PNG" width="200" />
-<img src="screenshots/details_2.PNG" width="200" />
-<img src="screenshots/search.PNG" width="200" />
-<img src="screenshots/settings.PNG" width="200" />
+<img src="screenshots/home.PNG" width="200" /> <img src="screenshots/details_1.PNG" width="200" /> <img src="screenshots/details_2.PNG" width="200" /> <img src="screenshots/search.PNG" width="200" /> <img src="screenshots/settings.PNG" width="200" />
 
 
 ## Running the Project
