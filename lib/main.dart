@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'DCEX',
       theme: ThemeData(
+        splashFactory: NoSplash.splashFactory,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       routerConfig: gorouter,

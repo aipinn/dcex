@@ -17,10 +17,6 @@ class FavoritePairWidget extends ConsumerWidget {
     final favoritePair = favorites.pair;
     final favoriteExchange = favorites.exchange;
 
-    return Container(
-      height: 30,
-      color: Colors.cyan.shade100,
-      child: Text('$favoritePair, $favoriteExchange'),
-    );
+    return Text('$favoritePair, $favoriteExchange');
   }
 }

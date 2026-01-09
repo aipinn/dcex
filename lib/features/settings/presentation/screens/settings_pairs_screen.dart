@@ -21,7 +21,7 @@ class SettingsPairsScreen extends ConsumerWidget {
               return ListTile(
                 leading: Text(
                   "$index: ${data[index].pair}",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+                  style: TextStyle(fontSize: 16),
                 ),
                 trailing: currentPair == data[index].pair
                     ? Icon(Icons.check_circle_outline)

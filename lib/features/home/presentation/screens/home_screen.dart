@@ -65,11 +65,8 @@ class HomeScreen extends HookConsumerWidget {
         toolbarHeight: 44,
         scrolledUnderElevation: 2,
         elevation: 2,
-        backgroundColor:
-            Colors.cyan.shade100, // Theme.of(context).colorScheme.surface,
-        // surfaceTintColor: Colors.transparent,
         centerTitle: true,
-        title: Text(LocaleKeys.homeTitle.tr()),
+        title: FavoritePairWidget(),
         actions: [
           TextButton(
             onPressed: () {
@@ -86,8 +83,6 @@ class HomeScreen extends HookConsumerWidget {
           Expanded(
             child: Column(
               children: [
-                FavoritePairWidget(),
-
                 Expanded(
                   child: pairs.when(
                     data: (data) {

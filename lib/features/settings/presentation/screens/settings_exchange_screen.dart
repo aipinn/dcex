@@ -26,7 +26,7 @@ class SettingsExchangeScreen extends ConsumerWidget {
                 key: ValueKey(index),
                 leading: Text(
                   "$index: ${data[index].symbol}",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+                  style: TextStyle(fontSize: 16),
                 ),
                 onTap: () {
                   ref

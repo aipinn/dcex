@@ -31,7 +31,7 @@ class SettingTile extends ConsumerWidget {
                 Expanded(
                   child: Text(data.title, style: const TextStyle(fontSize: 16)),
                 ),
-                Text(data.subtitle, style: const TextStyle(fontSize: 16)),
+                Text(data.subtitle, style: const TextStyle(fontSize: 14)),
               ],
             ),
           ),

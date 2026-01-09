@@ -17,7 +17,7 @@ class SettingsThemeScreen extends ConsumerWidget {
           return ListTile(
             leading: Text(
               themes[index].name,
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+              style: const TextStyle(fontSize: 16),
             ),
           );
         },

@@ -1,5 +1,6 @@
 import 'package:dcex/features/details/data/models/markets/pair/pair.dart';
 import 'package:dcex/features/home/providers/home_provider.dart';
+import 'package:dcex/shared/utils/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'search_provider.g.dart';
@@ -27,7 +28,7 @@ Future<List<Pair>> pairsSeach(Ref ref) async {
     data: (data) => data,
     orElse: () => [],
   );
-
+  if (searchText.isEmpty) return [];
   list = pairs
       .where((element) => element.pair.toLowerCase().contains(searchText))
       .toList();

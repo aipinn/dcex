@@ -1,9 +1,5 @@
 import 'package:dcex/features/settings/data/models/settings_section.dart';
 import 'package:dcex/features/settings/providers/settings_provider.dart';
-import 'package:dcex/features/settings/presentation/screens/settings_exchange_screen.dart';
-import 'package:dcex/features/settings/presentation/screens/settings_language_screen.dart';
-import 'package:dcex/features/settings/presentation/screens/settings_pairs_screen.dart';
-import 'package:dcex/features/settings/presentation/screens/settings_theme_screen.dart';
 import 'package:dcex/features/settings/presentation/widgets/settings_tile.dart';
 import 'package:dcex/routes/router.dart';
 import 'package:dcex/shared/utils/logger.dart';
@@ -75,7 +71,7 @@ class SettingsScreen extends ConsumerWidget {
       case SettingsTileType.exchange:
         SettingsExchangeRouter().push(context);
       case SettingsTileType.pair:
-        SettingsPageRouter().push(context);
+        SettingsPairRouter().push(context);
       case SettingsTileType.theme:
         SettingsThemeRouter().push(context);
     }

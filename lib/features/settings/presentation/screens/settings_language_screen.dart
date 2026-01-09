@@ -16,7 +16,7 @@ class SettingsLanguageScreen extends ConsumerWidget {
           return ListTile(
             leading: Text(
               languages[index].name,
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+              style: const TextStyle(fontSize: 16),
             ),
           );
         },
