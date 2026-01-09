@@ -63,4 +63,5 @@ flutter_icons:
   assets:
     - assets/translations/
     - assets/icon/icon.png
+    - assets/screenshots/
 

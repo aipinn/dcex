@@ -20,7 +20,7 @@ class TimeBarSelectorWidget extends ConsumerWidget {
             },
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-              decoration: BoxDecoration(color: Colors.amber.shade100),
+              decoration: BoxDecoration(color: Colors.black12),
               child: Center(child: Text(element.name)),
             ),
           );

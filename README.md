@@ -7,7 +7,6 @@ This project focuses on providing a unified market overview across multiple cryp
 > ⚠️ **Status**: Work in Progress  
 > The project is under active development and not yet feature-complete.
 
----
 
 ## Overview
 
@@ -16,7 +15,13 @@ This project focuses on providing a unified market overview across multiple cryp
 - 🔄 **Data**: Aggregated market data from multiple exchanges
 - 📊 **Goal**: Provide a clean, real-time preview of crypto market trends across exchanges
 
----
+
+## Environment Details
+
+- Flutter SDK Version: 3.38.5+  
+- Dart Version: 3.10.0+  
+- Riverpod Version: 3.0.0+
+
 
 ## Current Status
 
@@ -27,7 +32,16 @@ This project focuses on providing a unified market overview across multiple cryp
 
 Expect breaking changes during development.
 
----
+## Screenshots
+
+Here are some screenshots of the main pages of the app:
+
+<img src="assets/screenshots/home.png" width="200" />
+<img src="assets/screenshots/details_1.png" width="200" />
+<img src="assets/screenshots/details_2.png" width="200" />
+<img src="assets/screenshots/search.png" width="200" />
+<img src="assets/screenshots/settings.png" width="200" />
+
 
 ## Running the Project
 
@@ -40,24 +54,21 @@ To run the app successfully, you also need to set up and run the backend service
 
 Make sure the backend service is running before launching the Flutter app.
 
----
 
 ## Tech Stack
 
 - **Flutter**
-- **Riverpod**
+- **Riverpod3.0+**
 - **WebSocket**
 - **CCXT**
 - **REST APIs**
 
----
 
 ## Notes
 
 - This project is intended for learning, experimentation, and future expansion.
 - It is **not** intended for trading or financial decision-making at this stage.
 
----
 
 ## License
 
