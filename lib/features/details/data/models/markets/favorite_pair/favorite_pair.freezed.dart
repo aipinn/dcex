@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FavoritePair {
 
- Pair get pair; PairSummary get pairSummary;
+ Pair get pair;
 /// Create a copy of FavoritePair
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $FavoritePairCopyWith<FavoritePair> get copyWith => _$FavoritePairCopyWithImpl<F
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FavoritePair&&(identical(other.pair, pair) || other.pair == pair)&&(identical(other.pairSummary, pairSummary) || other.pairSummary == pairSummary));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FavoritePair&&(identical(other.pair, pair) || other.pair == pair));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,pair,pairSummary);
+int get hashCode => Object.hash(runtimeType,pair);
 
 @override
 String toString() {
-  return 'FavoritePair(pair: $pair, pairSummary: $pairSummary)';
+  return 'FavoritePair(pair: $pair)';
 }
 
 
@@ -48,11 +48,11 @@ abstract mixin class $FavoritePairCopyWith<$Res>  {
   factory $FavoritePairCopyWith(FavoritePair value, $Res Function(FavoritePair) _then) = _$FavoritePairCopyWithImpl;
 @useResult
 $Res call({
- Pair pair, PairSummary pairSummary
+ Pair pair
 });
 
 
-$PairCopyWith<$Res> get pair;$PairSummaryCopyWith<$Res> get pairSummary;
+$PairCopyWith<$Res> get pair;
 
 }
 /// @nodoc
@@ -65,11 +65,10 @@ class _$FavoritePairCopyWithImpl<$Res>
 
 /// Create a copy of FavoritePair
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? pair = null,Object? pairSummary = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? pair = null,}) {
   return _then(_self.copyWith(
 pair: null == pair ? _self.pair : pair // ignore: cast_nullable_to_non_nullable
-as Pair,pairSummary: null == pairSummary ? _self.pairSummary : pairSummary // ignore: cast_nullable_to_non_nullable
-as PairSummary,
+as Pair,
   ));
 }
 /// Create a copy of FavoritePair
@@ -80,15 +79,6 @@ $PairCopyWith<$Res> get pair {
   
   return $PairCopyWith<$Res>(_self.pair, (value) {
     return _then(_self.copyWith(pair: value));
-  });
-}/// Create a copy of FavoritePair
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$PairSummaryCopyWith<$Res> get pairSummary {
-  
-  return $PairSummaryCopyWith<$Res>(_self.pairSummary, (value) {
-    return _then(_self.copyWith(pairSummary: value));
   });
 }
 }
@@ -172,10 +162,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Pair pair,  PairSummary pairSummary)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Pair pair)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _FavoritePair() when $default != null:
-return $default(_that.pair,_that.pairSummary);case _:
+return $default(_that.pair);case _:
   return orElse();
 
 }
@@ -193,10 +183,10 @@ return $default(_that.pair,_that.pairSummary);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Pair pair,  PairSummary pairSummary)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Pair pair)  $default,) {final _that = this;
 switch (_that) {
 case _FavoritePair():
-return $default(_that.pair,_that.pairSummary);case _:
+return $default(_that.pair);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -213,10 +203,10 @@ return $default(_that.pair,_that.pairSummary);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Pair pair,  PairSummary pairSummary)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Pair pair)?  $default,) {final _that = this;
 switch (_that) {
 case _FavoritePair() when $default != null:
-return $default(_that.pair,_that.pairSummary);case _:
+return $default(_that.pair);case _:
   return null;
 
 }
@@ -228,11 +218,10 @@ return $default(_that.pair,_that.pairSummary);case _:
 @JsonSerializable()
 
 class _FavoritePair implements FavoritePair {
-  const _FavoritePair({required this.pair, required this.pairSummary});
+  const _FavoritePair({required this.pair});
   factory _FavoritePair.fromJson(Map<String, dynamic> json) => _$FavoritePairFromJson(json);
 
 @override final  Pair pair;
-@override final  PairSummary pairSummary;
 
 /// Create a copy of FavoritePair
 /// with the given fields replaced by the non-null parameter values.
@@ -247,16 +236,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FavoritePair&&(identical(other.pair, pair) || other.pair == pair)&&(identical(other.pairSummary, pairSummary) || other.pairSummary == pairSummary));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FavoritePair&&(identical(other.pair, pair) || other.pair == pair));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,pair,pairSummary);
+int get hashCode => Object.hash(runtimeType,pair);
 
 @override
 String toString() {
-  return 'FavoritePair(pair: $pair, pairSummary: $pairSummary)';
+  return 'FavoritePair(pair: $pair)';
 }
 
 
@@ -267,11 +256,11 @@ abstract mixin class _$FavoritePairCopyWith<$Res> implements $FavoritePairCopyWi
   factory _$FavoritePairCopyWith(_FavoritePair value, $Res Function(_FavoritePair) _then) = __$FavoritePairCopyWithImpl;
 @override @useResult
 $Res call({
- Pair pair, PairSummary pairSummary
+ Pair pair
 });
 
 
-@override $PairCopyWith<$Res> get pair;@override $PairSummaryCopyWith<$Res> get pairSummary;
+@override $PairCopyWith<$Res> get pair;
 
 }
 /// @nodoc
@@ -284,11 +273,10 @@ class __$FavoritePairCopyWithImpl<$Res>
 
 /// Create a copy of FavoritePair
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? pair = null,Object? pairSummary = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? pair = null,}) {
   return _then(_FavoritePair(
 pair: null == pair ? _self.pair : pair // ignore: cast_nullable_to_non_nullable
-as Pair,pairSummary: null == pairSummary ? _self.pairSummary : pairSummary // ignore: cast_nullable_to_non_nullable
-as PairSummary,
+as Pair,
   ));
 }
 
@@ -300,15 +288,6 @@ $PairCopyWith<$Res> get pair {
   
   return $PairCopyWith<$Res>(_self.pair, (value) {
     return _then(_self.copyWith(pair: value));
-  });
-}/// Create a copy of FavoritePair
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$PairSummaryCopyWith<$Res> get pairSummary {
-  
-  return $PairSummaryCopyWith<$Res>(_self.pairSummary, (value) {
-    return _then(_self.copyWith(pairSummary: value));
   });
 }
 }

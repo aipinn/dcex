@@ -1,4 +1,4 @@
-import 'package:dcex/features/home/data/models/exchanges/exchange.dart/exchange.dart';
+import 'package:dcex/features/home/data/models/exchanges/exchange/exchange.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'exchange_response.freezed.dart';

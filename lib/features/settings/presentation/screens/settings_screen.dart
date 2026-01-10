@@ -25,7 +25,9 @@ class SettingsScreen extends ConsumerWidget {
                 Text(section.title),
                 Card(
                   clipBehavior: Clip.antiAlias,
-                  shadowColor: Colors.black12,
+                  shadowColor: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.5),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),

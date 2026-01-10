@@ -1,8 +1,8 @@
 import 'package:dcex/features/details/presentation/scope/detail_scope_providers.dart';
 import 'package:dcex/features/details/providers/details_provider.dart';
-import 'package:dcex/features/home/data/models/pair/pair_summary/pair_summary.dart';
 import 'package:dcex/features/home/providers/home_provider.dart';
-import 'package:dcex/features/details/presentation/widgets/async_section.dart';
+import 'package:dcex/shared/market/domain/entities/ticker.dart';
+import 'package:dcex/shared/presentation/widgets/async_section.dart';
 import 'package:dcex/features/details/presentation/widgets/olhc_section.dart';
 import 'package:dcex/features/details/presentation/widgets/order_book_section.dart';
 import 'package:dcex/features/details/presentation/widgets/summary_section.dart';
@@ -46,7 +46,7 @@ class __SummaryTabState extends ConsumerState<_SummaryTab>
     final pair = ref.watch(currentDetailPair);
     final summary = ref.watch(pairSummaryProvider(pair));
 
-    return AsyncSection<PairSummary>(
+    return AsyncSection<TickerEntity>(
       value: summary,
       builder: (data) => SummarySection(summaryData: data),
     );

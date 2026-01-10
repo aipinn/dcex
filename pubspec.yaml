@@ -36,6 +36,7 @@ dependencies:
   collection: ^1.19.1
   web_socket_channel: ^3.0.3
   equatable: ^2.0.8
+  flutter_screenutil: ^5.9.3
 
 dev_dependencies:
   flutter_test:

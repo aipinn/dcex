@@ -1,4 +1,4 @@
-import 'package:dcex/constants/api_const.dart';
+import 'package:dcex/shared/network/api_const.dart';
 import 'package:dcex/constants/data_exceptions.dart';
 import 'package:dcex/features/details/data/models/graph/graph/graph.dart';
 import 'package:dcex/features/details/data/models/graph/graph_response/graph_response.dart';
@@ -7,13 +7,12 @@ import 'package:dcex/features/details/data/models/orderbook/orderbook_response/o
 import 'package:dcex/features/details/data/models/trades/trade/trade.dart';
 import 'package:dcex/features/details/data/models/trades/trade_response.dart/trade_response.dart';
 import 'package:dcex/features/details/domain/deatils_repository_api.dart';
-import 'package:dcex/shared/network/api_provider.dart';
-import 'package:dcex/shared/utils/logger.dart';
+import 'package:dcex/shared/network/dio_providers.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final detailsRepositoryProvider = Provider<DetailsRepositoryImpl>((ref) {
-  final dio = ref.watch(clientProvider);
+  final dio = ref.watch(dioProvider);
   return DetailsRepositoryImpl(dio);
 });
 

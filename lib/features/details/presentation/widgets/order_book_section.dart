@@ -1,6 +1,7 @@
+import 'package:dcex/core/theme/app_theme.dart';
+import 'package:dcex/features/details/presentation/widgets/order_book_tile.dart';
 import 'package:dcex/generated/locale_keys.g.dart';
 import 'package:dcex/features/details/data/models/orderbook/orderbook/order_book.dart';
-import 'package:dcex/shared/utils/logger.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,7 +25,9 @@ class OrderBookSection extends ConsumerWidget {
             children: [
               Expanded(
                 child: ColoredBox(
-                  color: Colors.greenAccent,
+                  color: Theme.of(
+                    context,
+                  ).extension<TradeColors>()!.buy.withValues(alpha: 0.6),
                   child: Center(
                     child: _OrderBookTitleItem(title: LocaleKeys.bid.tr()),
                   ),
@@ -32,7 +35,9 @@ class OrderBookSection extends ConsumerWidget {
               ),
               Expanded(
                 child: ColoredBox(
-                  color: Colors.redAccent,
+                  color: Theme.of(
+                    context,
+                  ).extension<TradeColors>()!.sell.withValues(alpha: 0.6),
                   child: Center(
                     child: _OrderBookTitleItem(title: LocaleKeys.ask.tr()),
                   ),
@@ -53,10 +58,10 @@ class OrderBookSection extends ConsumerWidget {
                   itemCount: orderBookData.bids.length,
                   itemBuilder: (BuildContext context, int index) {
                     final item = orderBookData.bids[index];
-                    return _OrderBookDetailItem(
+                    return OrderBookTile(
                       left: item.amount,
                       right: item.price,
-                      color: Colors.green,
+                      color: Theme.of(context).extension<TradeColors>()!.buy,
                       length:
                           (item.price - orderBookData.bids.first.price).abs() /
                           bidLen,
@@ -76,10 +81,10 @@ class OrderBookSection extends ConsumerWidget {
                   itemCount: orderBookData.asks.length,
                   itemBuilder: (BuildContext context, int index) {
                     final item = orderBookData.asks[index];
-                    return _OrderBookDetailItem(
+                    return OrderBookTile(
                       left: item.price,
                       right: item.amount,
-                      color: Colors.red,
+                      color: Theme.of(context).extension<TradeColors>()!.sell,
                       length:
                           (item.price - orderBookData.asks.first.price).abs() /
                           askLen,
@@ -90,78 +95,6 @@ class OrderBookSection extends ConsumerWidget {
               ),
             ],
           ),
-        ),
-      ],
-    );
-  }
-}
-
-enum OrderDepthAlign { start, end }
-
-class _OrderBookDetailItem extends StatelessWidget {
-  final double left;
-  final double right;
-  final Color color;
-  final double length;
-  final OrderDepthAlign align;
-
-  const _OrderBookDetailItem({
-    required this.left,
-    required this.right,
-    required this.color,
-    required this.length,
-    required this.align,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: Align(
-            alignment: align == OrderDepthAlign.start
-                ? Alignment.centerLeft
-                : Alignment.centerRight,
-            child: AnimatedFractionallySizedBox(
-              duration: const Duration(milliseconds: 300),
-              widthFactor: length.clamp(0.05, 1.0),
-              alignment: align == OrderDepthAlign.start
-                  ? Alignment.centerLeft
-                  : Alignment.centerRight,
-              child: SizedBox.expand(
-                child: ColoredBox(color: color.withValues(alpha: 0.1)),
-              ),
-            ),
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6),
-              child: Text(
-                align == OrderDepthAlign.end
-                    ? "${(left / 1e3).toStringAsFixed(2)}k"
-                    : left.toString(),
-                style: TextStyle(
-                  fontSize: 16,
-                  color: align == OrderDepthAlign.end ? Colors.black : color,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6),
-              child: Text(
-                align == OrderDepthAlign.start
-                    ? "${(right / 1e3).toStringAsFixed(2)}k"
-                    : right.toString(),
-                style: TextStyle(
-                  fontSize: 16,
-                  color: align == OrderDepthAlign.start ? Colors.black : color,
-                ),
-              ),
-            ),
-          ],
         ),
       ],
     );

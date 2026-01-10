@@ -1,3 +1,4 @@
+import 'package:dcex/features/contracts/presentation/screens/futures_main_screen.dart';
 import 'package:dcex/routes/router.dart';
 import 'package:dcex/routes/router_consts.dart';
 import 'package:dcex/routes/widgets/error_page.dart';
@@ -30,6 +31,15 @@ final gorouter = GoRouter(
             GoRoute(
               path: RouterConsts.search,
               builder: (context, state) => const SearchScreen(),
+              routes: searchRoutes,
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: RouterConsts.futures,
+              builder: (context, state) => const FuturesMainPage(),
               routes: searchRoutes,
             ),
           ],

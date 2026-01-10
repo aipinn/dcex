@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:dcex/core/result.dart';
 import 'package:dcex/features/home/data/repositories/home_repository_impl.dart';
-import 'package:dcex/features/home/data/models/exchanges/exchange.dart/exchange.dart';
+import 'package:dcex/features/home/data/models/exchanges/exchange/exchange.dart';
 import 'package:dcex/features/settings/providers/settings_provider.dart';
 import 'package:dcex/features/details/data/models/markets/pair/pair.dart';
-import 'package:dcex/features/home/data/models/pair/pair_summary/pair_summary.dart';
+import 'package:dcex/shared/market/domain/entities/ticker.dart';
+import 'package:dcex/shared/market/providers/ticker_provider.dart';
 import 'package:dcex/shared/utils/logger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,14 +19,21 @@ final exchangesProvider = FutureProvider<List<Exchange>>((ref) async {
 });
 
 /// Get pair summary
-final pairSummaryProvider = FutureProvider.family<PairSummary, Pair>((
+final pairSummaryProvider = FutureProvider.family<TickerEntity, Pair>((
   ref,
   pair,
 ) async {
-  final pairSummary = await ref
-      .read(homeRepositoryProvider)
-      .getPairSummary(pair.exchange, pair.pair);
-  return pairSummary;
+  final usecaseTicker = ref.watch(getTickerUsecaseProvider);
+  final result = await usecaseTicker.call(pair.exchange, pair.pair, 'spot');
+
+  return result.when(
+    success: (TickerEntity value) {
+      return value;
+    },
+    failure: (String message, Object? error) {
+      throw error!;
+    },
+  );
 });
 
 /// 推荐

@@ -9,7 +9,7 @@
 // });
 
 import 'dart:async';
-import 'package:dcex/constants/api_const.dart';
+import 'package:dcex/shared/network/api_const.dart';
 import 'package:dcex/features/settings/providers/settings_provider.dart';
 import 'package:dcex/shared/ws_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

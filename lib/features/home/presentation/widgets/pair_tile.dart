@@ -1,20 +1,16 @@
 import 'package:dcex/constants/utils.dart' as utils;
+import 'package:dcex/core/theme/app_theme.dart';
 import 'package:dcex/features/details/data/models/graph/graph/graph.dart';
 import 'package:dcex/features/details/data/models/markets/pair/pair.dart';
 import 'package:dcex/features/details/providers/details_provider.dart';
-import 'package:dcex/features/home/data/models/pair/pair_summary/pair_summary.dart';
 import 'package:dcex/features/home/providers/home_provider.dart';
-import 'package:dcex/features/home/providers/home_ux_provider.dart';
-import 'package:dcex/features/home/providers/home_pair_ws_provider.dart';
+import 'package:dcex/features/home/presentation/providers/home_pair_ws_provider.dart';
 import 'package:dcex/routes/router.dart';
-import 'package:dcex/features/details/presentation/widgets/async_section.dart';
+import 'package:dcex/shared/market/domain/entities/ticker.dart';
+import 'package:dcex/shared/presentation/widgets/async_section.dart';
 import 'package:dcex/features/details/presentation/widgets/line_widget.dart';
-import 'package:dcex/shared/pairs_summary_manager_provider.dart';
-import 'package:dcex/shared/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:go_router/go_router.dart';
-// import 'package:dcex/routes/router_config.dart';
 
 final currentPairProvider = Provider<Pair>((ref) {
   throw UnimplementedError();
@@ -34,14 +30,14 @@ class PairTitleWidget extends ConsumerWidget {
 
   Widget _buildTile(BuildContext context) {
     return Container(
-      color: Colors.black12,
+      color: Theme.of(context).colorScheme.surface,
       padding: EdgeInsets.symmetric(vertical: 0.5),
       child: GestureDetector(
         onTap: () {
           _pushToDetailPage(context);
         },
         child: Container(
-          color: const Color.fromARGB(255, 244, 237, 240),
+          color: Theme.of(context).colorScheme.surface,
           padding: EdgeInsets.symmetric(horizontal: 8),
           height: 100,
           child: Row(
@@ -74,7 +70,11 @@ class PairTitleWidget extends ConsumerWidget {
                           );
                         }
 
-                        return _buildLineChart(graph.value!, summary.value!);
+                        return _buildLineChart(
+                          context,
+                          graph.value!,
+                          summary.value!,
+                        );
                       },
                 ),
               ),
@@ -82,11 +82,11 @@ class PairTitleWidget extends ConsumerWidget {
               // Reactive: depends on summary only
               Consumer(
                 builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                  // final summary = ref.watch(pairSummaryProvider(pair));
-                  final summary = ref.watch(pairSummaryWsProvider(pair.pair));
+                  final summary = ref.watch(pairSummaryProvider(pair));
+                  // final summary = ref.watch(pairSummaryWsProvider(pair.pair));
                   return AsyncSection(
                     value: summary,
-                    builder: (PairSummary data) {
+                    builder: (TickerEntity data) {
                       // logInfo('build 🍤： ${data.price.last}');
                       return _buildPrice(data, context);
                     },
@@ -100,20 +100,20 @@ class PairTitleWidget extends ConsumerWidget {
     );
   }
 
-  Widget _buildPrice(PairSummary summary, BuildContext context) {
+  Widget _buildPrice(TickerEntity summary, BuildContext context) {
     return Row(
       children: [
         Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              summary.price.last.toStringAsFixed(3),
+              summary.last.toStringAsFixed(3),
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 6),
 
             Text(
-              summary.price.change.absolute.toStringAsFixed(2),
+              summary.change.toStringAsFixed(2),
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
             ),
           ],
@@ -122,20 +122,20 @@ class PairTitleWidget extends ConsumerWidget {
         // Percent
         Container(
           decoration: BoxDecoration(
-            color: summary.price.change.absolute < 0
-                ? Colors.red
-                : Colors.greenAccent,
+            color: summary.change < 0
+                ? Theme.of(context).extension<TradeColors>()!.sell
+                : Theme.of(context).extension<TradeColors>()!.buy,
             borderRadius: BorderRadius.circular(6),
           ),
           alignment: Alignment.center,
           width: 80,
           height: 32,
           child: Text(
-            "${summary.price.change.percentage.toStringAsFixed(2)} %",
+            "${summary.percentage.toStringAsFixed(2)} %",
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.surface,
             ),
           ),
         ),
@@ -143,12 +143,16 @@ class PairTitleWidget extends ConsumerWidget {
     );
   }
 
-  Widget _buildLineChart(Graph graph, PairSummary summary) {
+  Widget _buildLineChart(
+    BuildContext context,
+    Graph graph,
+    TickerEntity summary,
+  ) {
     return LineChartWidget(
       data: utils.getPoints(graph),
-      color: summary.price.change.absolute < 0
-          ? Colors.red
-          : Colors.greenAccent,
+      color: summary.change < 0
+          ? Theme.of(context).extension<TradeColors>()!.sell
+          : Theme.of(context).extension<TradeColors>()!.buy,
       loading: false,
       error: false,
     );
@@ -174,7 +178,7 @@ class PairTitleWidget extends ConsumerWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
               TextSpan(
@@ -182,7 +186,7 @@ class PairTitleWidget extends ConsumerWidget {
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.normal,
-                  color: Colors.blueGrey,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
               ),
             ],

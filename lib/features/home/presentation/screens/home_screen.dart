@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:dcex/features/home/presentation/controllers/home_ws_subscription_controller.dart';
-import 'package:dcex/features/home/providers/home_ux_provider.dart';
-import 'package:dcex/generated/locale_keys.g.dart';
+import 'package:dcex/features/home/presentation/providers/home_ux_provider.dart';
 import 'package:dcex/features/home/providers/home_provider.dart';
 import 'package:dcex/features/home/presentation/widgets/favorite_pair.dart';
 import 'package:dcex/features/home/presentation/widgets/pair_tile.dart';

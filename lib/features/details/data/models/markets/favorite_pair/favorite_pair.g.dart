@@ -7,15 +7,7 @@ part of 'favorite_pair.dart';
 // **************************************************************************
 
 _FavoritePair _$FavoritePairFromJson(Map<String, dynamic> json) =>
-    _FavoritePair(
-      pair: Pair.fromJson(json['pair'] as Map<String, dynamic>),
-      pairSummary: PairSummary.fromJson(
-        json['pairSummary'] as Map<String, dynamic>,
-      ),
-    );
+    _FavoritePair(pair: Pair.fromJson(json['pair'] as Map<String, dynamic>));
 
 Map<String, dynamic> _$FavoritePairToJson(_FavoritePair instance) =>
-    <String, dynamic>{
-      'pair': instance.pair,
-      'pairSummary': instance.pairSummary,
-    };
+    <String, dynamic>{'pair': instance.pair};

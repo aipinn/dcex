@@ -1,5 +1,5 @@
 import 'package:dcex/features/home/providers/home_provider.dart';
-import 'package:dcex/features/home/providers/home_ux_provider.dart';
+import 'package:dcex/features/home/presentation/providers/home_ux_provider.dart';
 import 'package:dcex/shared/pairs_summary_manager_provider.dart';
 import 'package:dcex/shared/utils/logger.dart';
 import 'package:flutter/material.dart';
@@ -67,10 +67,10 @@ class HomeWsSubscriptionController {
       'home subscribe target: $targetSet, active: $activeSymbols, new: $newSubSet, unsubscribe: $unsubSet',
     );
     for (final symbol in newSubSet) {
-      manager.subscribe(symbol);
+      // manager.subscribe(symbol);
     }
     for (final symbol in unsubSet) {
-      manager.unsubscribe(symbol);
+      // manager.unsubscribe(symbol);
     }
   }
 }

@@ -1,5 +1,8 @@
 import 'dart:async';
-import 'package:dcex/features/home/data/models/pair/pair_summary/pair_summary.dart';
+import 'package:dcex/shared/market/data/models/futures_ticker_model.dart';
+import 'package:dcex/shared/market/data/models/options_ticker_model.dart';
+import 'package:dcex/shared/market/data/models/spot_ticker_model.dart';
+import 'package:dcex/shared/market/domain/entities/ticker.dart';
 import 'package:dcex/shared/ws_service.dart';
 import 'package:dcex/shared/utils/logger.dart';
 
@@ -13,20 +16,20 @@ class PairsSummaryManager {
   final Map<String, int> _subscriptionCounts = {};
 
   /// Cache last value, diff
-  final Map<String, PairSummary> _lastValues = {};
+  final Map<String, TickerEntity> _lastValues = {};
 
-  // Symbol to PairSummary controller
-  final Map<String, StreamController<PairSummary>> _tickerControllers = {};
+  // Symbol to TickerEntity controller
+  final Map<String, StreamController<TickerEntity>> _tickerControllers = {};
 
   // Debouncers
   final Map<String, Debouncer> _debouncers = {};
 
-  Stream<PairSummary> getTicker(String symbol) {
+  Stream<TickerEntity> getTicker(String symbol) {
     final controller = _getController(symbol);
     return controller.stream;
   }
 
-  PairSummary? getLastValue(String symbol) {
+  TickerEntity? getLastValue(String symbol) {
     return _lastValues[symbol];
   }
 
@@ -60,7 +63,7 @@ class PairsSummaryManager {
   }
 
   /// Subscribe to ticker stream
-  Stream<PairSummary> subscribe(String symbol) {
+  Stream<TickerEntity> subscribe(String symbol) {
     // Remove old debouncer
     if (_debouncers.containsKey(symbol)) {
       _debouncers.remove(symbol)?.dispose();
@@ -79,7 +82,7 @@ class PairsSummaryManager {
   }
 
   /// Resubscribe, just call subscribe() again
-  Stream<PairSummary> resubscribe(String symbol) {
+  Stream<TickerEntity> resubscribe(String symbol) {
     return subscribe(symbol);
   }
 
@@ -118,9 +121,9 @@ class PairsSummaryManager {
     }
   }
 
-  StreamController<PairSummary> _getController(String symbol) {
+  StreamController<TickerEntity> _getController(String symbol) {
     final controller = _tickerControllers.putIfAbsent(symbol, () {
-      return StreamController<PairSummary>.broadcast();
+      return StreamController<TickerEntity>.broadcast();
     });
     return controller;
   }
@@ -141,7 +144,11 @@ class PairsSummaryManager {
 
   // 1. subscribe
   void _sendSubscribe(String symbol) {
-    _wsService.send({'action': 'subscribe', 'symbol': symbol});
+    _wsService.send({
+      'action': 'subscribe',
+      'symbol': symbol,
+      'marketType': '',
+    });
   }
 
   // 2. unsubscribe
@@ -173,18 +180,32 @@ class PairsSummaryManager {
     // 但是不能直接使用模型对比，因为有些数据，例如时间戳是永远变化的、有些数据不显示是不是考虑不参与diff，
     // 另外，server有一套根据精度的diff逻辑，但是client显示小数点后几位数在不同场景下不一样，diff的逻辑是不同的 如果需要可以增加不同的diff逻辑
     // 这里刨除时间戳，简单对比其他值相等
-    final ticker = PairSummary.fromJson(payload);
+    // final ticker = TickerEntity.fromJson(payload);
+    TickerEntity fromJson(Map<String, dynamic> json) {
+      switch (json['marketType']) {
+        case 'spot':
+          return SpotTickerModel.fromJson(json);
+        case 'future':
+          return FuturesTickerModel.fromJson(json);
+        case 'option':
+          return OptionsTickerModel.fromJson(json);
+        default:
+          throw Exception('Unknown ticker type');
+      }
+    }
+
+    final ticker = fromJson(payload);
     // Send data if needed
     _emit(controller, symbol, ticker);
   }
 
-  void _emit(StreamController controller, String symbol, PairSummary next) {
+  void _emit(StreamController controller, String symbol, TickerEntity next) {
     final prev = _lastValues[symbol];
     if (prev != null &&
-        prev.price.last == next.price.last &&
-        prev.price.high == next.price.high &&
-        prev.price.low == next.price.low &&
-        prev.volume == next.volume) {
+        prev.last == next.last &&
+        prev.high == next.high &&
+        prev.low == next.low &&
+        prev.baseVolume == next.baseVolume) {
       // volumeQuote不显示，不参与diff
       // prev.volumeQuote == next.volumeQuote;
       logInfo("❌ $symbol: 无变化，不推");

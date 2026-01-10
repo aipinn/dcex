@@ -1,6 +1,5 @@
 import 'package:dcex/features/details/data/models/markets/pair/pair.dart';
-import 'package:dcex/features/home/data/models/exchanges/exchange.dart/exchange.dart';
-import 'package:dcex/features/home/data/models/pair/pair_summary/pair_summary.dart';
+import 'package:dcex/features/home/data/models/exchanges/exchange/exchange.dart';
 
 abstract class HomeRepositoryApi {
   /// Get the exchanges
@@ -10,5 +9,5 @@ abstract class HomeRepositoryApi {
   Future<List<Pair>> getPairs(String market);
 
   /// Get the summary of a pair
-  Future<PairSummary> getPairSummary(String market, String pair);
+  // Future<PairSummary> getPairSummary(String market, String pair);
 }

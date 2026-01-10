@@ -36,7 +36,7 @@ Expect breaking changes during development.
 
 Here are some screenshots of the main pages of the app:
 
-<img src="screenshots/home.PNG" width="200" /> <img src="screenshots/details_1.PNG" width="200" /> <img src="screenshots/details_2.PNG" width="200" /> <img src="screenshots/search.PNG" width="200" /> <img src="screenshots/settings.PNG" width="200" />
+<img src="screenshots/tab_home.PNG" width="200" /> <img src="screenshots/home_details_1.PNG" width="200" /> <img src="screenshots/home_details_2.PNG" width="200" /> <img src="screenshots/tab_search.PNG" width="200" /> <img src="screenshots/tab_futures_um.PNG" width="200" /> <img src="screenshots/tab_settings.PNG" width="200" /> <img src="screenshots/tab_home_dart.PNG" width="200" />
 
 
 ## Running the Project

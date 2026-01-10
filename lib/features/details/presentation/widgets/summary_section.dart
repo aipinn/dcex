@@ -1,18 +1,16 @@
 import 'package:dcex/generated/locale_keys.g.dart';
-import 'package:dcex/features/home/data/models/pair/pair_summary/pair_summary.dart';
-import 'package:dcex/features/home/data/models/pair/price/price.dart';
+import 'package:dcex/shared/market/domain/entities/ticker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SummarySection extends ConsumerWidget {
-  final PairSummary summaryData;
+  final TickerEntity summaryData;
   const SummarySection({super.key, required this.summaryData});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      color: Colors.amber,
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       child: SingleChildScrollView(
         child: Column(
@@ -22,22 +20,22 @@ class SummarySection extends ConsumerWidget {
             SizedBox(height: 5),
             _PriceDetailItem(
               title: LocaleKeys.last.tr(),
-              value: summaryData.price.last.toString(),
+              value: summaryData.last.toString(),
             ),
             SizedBox(height: 5),
             _PriceDetailItem(
               title: LocaleKeys.high.tr(),
-              value: summaryData.price.high.toString(),
+              value: summaryData.high.toString(),
             ),
             SizedBox(height: 5),
             _PriceDetailItem(
               title: LocaleKeys.low.tr(),
-              value: summaryData.price.low.toString(),
+              value: summaryData.low.toString(),
             ),
             SizedBox(height: 5),
             _PriceDetailItem(
               title: LocaleKeys.change.tr(),
-              value: summaryData.price.change.absolute.toString(),
+              value: summaryData.change.toString(),
             ),
 
             // =====Volume======
@@ -45,7 +43,7 @@ class SummarySection extends ConsumerWidget {
             SizedBox(height: 5),
             _PriceDetailItem(
               title: LocaleKeys.quoteVolume.tr(),
-              value: summaryData.volumeQuote.toString(),
+              value: summaryData.quoteVolume.toString(),
             ),
           ],
         ),

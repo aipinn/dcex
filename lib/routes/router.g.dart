@@ -11,6 +11,7 @@ List<RouteBase> get $appRoutes => [
   $settingsPageRouter,
   $searchPageRouter,
   $errorPageRouter,
+  $futuresPageRouter,
 ];
 
 RouteBase get $homePageRouter => GoRouteData.$route(
@@ -231,6 +232,32 @@ mixin _$ErrorPageRouter on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/error');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $futuresPageRouter => GoRouteData.$route(
+  path: '/futures',
+  factory: _$FuturesPageRouter._fromState,
+);
+
+mixin _$FuturesPageRouter on GoRouteData {
+  static FuturesPageRouter _fromState(GoRouterState state) =>
+      const FuturesPageRouter();
+
+  @override
+  String get location => GoRouteData.$location('/futures');
 
   @override
   void go(BuildContext context) => context.go(location);

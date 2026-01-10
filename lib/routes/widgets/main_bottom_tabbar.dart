@@ -1,6 +1,8 @@
 import 'dart:ui';
+import 'package:dcex/constants/app_constants.dart';
 import 'package:dcex/routes/router_consts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 class MainBottomTabbar extends StatelessWidget {
@@ -29,6 +31,7 @@ class MainBottomTabbar extends StatelessWidget {
                 child: _GlassTabBar(
                   currentIndex: navigationShell.currentIndex,
                   onTap: (index) {
+                    HapticFeedback.selectionClick();
                     navigationShell.goBranch(
                       index,
                       initialLocation: index == navigationShell.currentIndex,
@@ -50,6 +53,7 @@ class MainBottomTabbar extends StatelessWidget {
     final topLevelRoutes = [
       RouterConsts.home,
       RouterConsts.search,
+      RouterConsts.futures,
       RouterConsts.settings,
     ];
     return topLevelRoutes.any((route) => location == route);
@@ -68,14 +72,16 @@ class _GlassTabBar extends StatelessWidget {
     final unselectedColor = Colors.black38;
 
     return ClipRRect(
-      borderRadius: BorderRadius.circular(32),
+      borderRadius: BorderRadius.circular(AppConstants.mainTabbarHeight / 2),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
         child: Container(
-          height: 64,
+          height: AppConstants.mainTabbarHeight,
           decoration: BoxDecoration(
             color: Colors.black.withValues(alpha: 0.05),
-            borderRadius: BorderRadius.circular(32),
+            borderRadius: BorderRadius.circular(
+              AppConstants.mainTabbarHeight / 2,
+            ),
             border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
           ),
           child: Row(
@@ -83,6 +89,7 @@ class _GlassTabBar extends StatelessWidget {
             children: [
               _TabItem(
                 icon: Icons.home,
+                title: 'Home',
                 index: 0,
                 currentIndex: currentIndex,
                 onTap: onTap,
@@ -91,6 +98,7 @@ class _GlassTabBar extends StatelessWidget {
               ),
               _TabItem(
                 icon: Icons.search,
+                title: 'Search',
                 index: 1,
                 currentIndex: currentIndex,
                 onTap: onTap,
@@ -98,8 +106,18 @@ class _GlassTabBar extends StatelessWidget {
                 unselectedColor: unselectedColor,
               ),
               _TabItem(
-                icon: Icons.settings,
+                icon: Icons.contrast,
+                title: 'Futures',
                 index: 2,
+                currentIndex: currentIndex,
+                onTap: onTap,
+                selectedColor: selectedColor,
+                unselectedColor: unselectedColor,
+              ),
+              _TabItem(
+                icon: Icons.settings,
+                title: 'Settings',
+                index: 3,
                 currentIndex: currentIndex,
                 onTap: onTap,
                 selectedColor: selectedColor,
@@ -116,6 +134,7 @@ class _GlassTabBar extends StatelessWidget {
 class _TabItem extends StatelessWidget {
   const _TabItem({
     required this.icon,
+    required this.title,
     required this.index,
     required this.currentIndex,
     required this.onTap,
@@ -124,6 +143,7 @@ class _TabItem extends StatelessWidget {
   });
 
   final IconData icon;
+  final String title;
   final int index;
   final int currentIndex;
   final ValueChanged<int> onTap;
@@ -140,17 +160,21 @@ class _TabItem extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
         curve: Curves.easeOut,
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? Colors.white.withValues(alpha: 0.18)
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Icon(
-          icon,
-          size: 22,
-          color: isSelected ? selectedColor : unselectedColor,
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+        child: Column(
+          children: [
+            Icon(
+              icon,
+              size: 24,
+              color: isSelected ? selectedColor : unselectedColor,
+            ),
+            Text(
+              title,
+              style: TextStyle(
+                color: isSelected ? selectedColor : unselectedColor,
+              ),
+            ),
+          ],
         ),
       ),
     );

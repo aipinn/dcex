@@ -98,4 +98,4 @@ final class PairsSeachProvider
   }
 }
 
-String _$pairsSeachHash() => r'90f4fee9ff2f3ca5a8bef8046d147dfbc048e53a';
+String _$pairsSeachHash() => r'63bbea71ce2ae13ca42f15943e2cf5130465a7b5';

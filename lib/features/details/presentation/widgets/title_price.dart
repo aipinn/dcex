@@ -21,13 +21,13 @@ class TitlePrice extends ConsumerWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               Text(
-                data.price.last.toString(),
+                data.last.toString(),
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               Row(
                 children: [
                   Text(
-                    data.price.change.absolute.toString(),
+                    data.change.toString(),
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.normal,
@@ -35,7 +35,7 @@ class TitlePrice extends ConsumerWidget {
                   ),
                   SizedBox(width: 20),
                   Text(
-                    "${data.price.change.percentage.toStringAsFixed(2)}%",
+                    "${data.percentage.toStringAsFixed(2)}%",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.normal,
@@ -52,7 +52,7 @@ class TitlePrice extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "24h High\n${data.price.high.toStringAsFixed(4)}",
+                    "24h High\n${data.high.toStringAsFixed(4)}",
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.normal,
@@ -60,7 +60,7 @@ class TitlePrice extends ConsumerWidget {
                   ),
                   SizedBox(height: 4),
                   Text(
-                    "24h Low\n${data.price.low.toStringAsFixed(4)}",
+                    "24h Low\n${data.low.toStringAsFixed(4)}",
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.normal,
@@ -73,7 +73,7 @@ class TitlePrice extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "24h Vol\n${(data.volume / 1e6).toStringAsFixed(2)}M",
+                    "24h Vol\n${(data.baseVolume / 1e6).toStringAsFixed(2)}M",
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.normal,
@@ -81,7 +81,7 @@ class TitlePrice extends ConsumerWidget {
                   ),
                   SizedBox(height: 4),
                   Text(
-                    "24h Vol Qou\n${(data.volumeQuote / 1e6).toStringAsFixed(2)}M",
+                    "24h Vol Qou\n${(data.quoteVolume / 1e6).toStringAsFixed(2)}M",
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.normal,

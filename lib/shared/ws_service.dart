@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:dcex/constants/api_const.dart';
+import 'package:dcex/constants/app_constants.dart';
 import 'package:dcex/shared/utils/logger.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -22,7 +22,7 @@ class IoWebSocketTransport implements WsTransport {
   @override
   Future<void> connect() async {
     final uri = Uri.parse(
-      baseWsUrl + endpoint,
+      AppConstants.baseWsUrl + endpoint,
     ); // endpoint = "/api/ws/ticker?exchange=bingx"
     logInfo('ws connect: $uri');
     _socket = await WebSocket.connect(uri.toString());
@@ -51,7 +51,7 @@ class ChannelWebSocketTransport implements WsTransport {
 
   @override
   Future<void> connect() async {
-    final uri = Uri.parse(baseWsUrl).replace(path: endpoint);
+    final uri = Uri.parse(AppConstants.baseWsUrl).replace(path: endpoint);
     _channel = WebSocketChannel.connect(uri);
   }
 

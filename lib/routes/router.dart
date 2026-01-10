@@ -1,3 +1,4 @@
+import 'package:dcex/features/contracts/presentation/screens/futures_main_screen.dart';
 import 'package:dcex/features/search/presentation/screens/search_screen.dart';
 import 'package:dcex/features/settings/presentation/screens/settings_exchange_screen.dart';
 import 'package:dcex/features/settings/presentation/screens/settings_language_screen.dart';
@@ -47,6 +48,7 @@ Page<void> _buildPageWithAnimation({
 List<RouteBase> get homeRoutes => $homePageRouter.routes;
 List<RouteBase> get settingsRoutes => $settingsPageRouter.routes;
 List<RouteBase> get searchRoutes => $searchPageRouter.routes;
+List<RouteBase> get contractRoutes => $futuresPageRouter.routes;
 List<RouteBase> get errorRoutes => $errorPageRouter.routes;
 
 @TypedGoRoute<HomePageRouter>(
@@ -149,5 +151,14 @@ class ErrorPageRouter extends GoRouteData with _$ErrorPageRouter {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const ErrorPage();
+  }
+}
+
+@TypedGoRoute<FuturesPageRouter>(path: RouterConsts.futures)
+class FuturesPageRouter extends GoRouteData with _$FuturesPageRouter {
+  const FuturesPageRouter();
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const FuturesMainPage();
   }
 }

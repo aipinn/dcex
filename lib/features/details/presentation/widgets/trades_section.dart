@@ -2,9 +2,9 @@ import 'package:dcex/constants/color_preset.dart';
 import 'package:dcex/constants/utils.dart' as utils;
 import 'package:dcex/features/details/data/models/trades/trade/trade_extension.dart';
 import 'package:dcex/features/details/presentation/scope/detail_scope_providers.dart';
-import 'package:dcex/features/home/data/models/pair/pair_summary/pair_summary.dart';
 import 'package:dcex/generated/locale_keys.g.dart';
 import 'package:dcex/features/details/data/models/trades/trade/trade.dart';
+import 'package:dcex/shared/market/domain/entities/ticker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,7 +48,7 @@ class TradesSection extends ConsumerWidget {
 class _TradeTile extends ConsumerWidget {
   const _TradeTile({required this.data, required this.summary});
 
-  final PairSummary summary;
+  final TickerEntity summary;
   final Trade data;
 
   @override

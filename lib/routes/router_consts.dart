@@ -4,6 +4,7 @@ class RouterConsts {
   static const String home = '/';
   static const String search = '/search';
   static const String settings = '/settings';
+  static const String futures = '/futures';
   static const String error = '/error';
 
   // Home

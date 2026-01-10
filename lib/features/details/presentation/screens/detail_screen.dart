@@ -1,7 +1,7 @@
 import 'package:dcex/constants/utils.dart' as utils;
 import 'package:dcex/features/details/data/models/graph/graph/graph.dart';
 import 'package:dcex/features/details/presentation/scope/detail_scope_providers.dart';
-import 'package:dcex/features/details/presentation/widgets/async_section.dart';
+import 'package:dcex/shared/presentation/widgets/async_section.dart';
 import 'package:dcex/features/details/providers/details_provider.dart';
 import 'package:dcex/features/details/providers/pair_detail_ws_provider.dart';
 import 'package:dcex/features/details/presentation/widgets/detail_section.dart';
@@ -202,7 +202,7 @@ class _TabbarHeader extends SliverPersistentHeaderDelegate {
     bool overlapsContent,
   ) {
     return ColoredBox(
-      color: Colors.white,
+      color: Theme.of(context).colorScheme.surface,
       child: TabBar(
         controller: tabController,
         tabs: [for (final title in tabTitles) Tab(text: title)],
@@ -236,8 +236,8 @@ class _ChartToggleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = selected
-        ? Theme.of(context).colorScheme.primary
-        : Colors.grey.shade500;
+        ? Theme.of(context).colorScheme.onSurface
+        : Theme.of(context).colorScheme.onSurfaceVariant;
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
