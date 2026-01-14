@@ -9,7 +9,7 @@ import 'package:dcex/features/details/data/models/orderbook/price/price.dart';
 import 'package:dcex/features/settings/providers/settings_provider.dart';
 import 'package:dcex/shared/market/domain/entities/futures_ticker.dart';
 import 'package:dcex/shared/market/domain/entities/ticker.dart';
-import 'package:dcex/shared/pairs_summary_manager_provider.dart';
+import 'package:dcex/shared/ws_ticker_manager_provider.dart';
 import 'package:dcex/shared/utils/count_down.dart';
 import 'package:dcex/shared/utils/logger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -236,7 +236,7 @@ class OrderForm extends _$OrderForm {
 
 final pairFutureWsProvider = StreamProvider.autoDispose
     .family<TickerEntity, String>((ref, symbol) {
-      final managerAsync = ref.watch(pairSummaryWsManagerProvider);
+      final managerAsync = ref.watch(wsTickerManagerProvider);
       ref.onCancel(() {
         logInfo('Future ws cancel: $symbol');
       });
@@ -321,5 +321,13 @@ class UsdtFundingCountdown extends _$UsdtFundingCountdown {
     final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     final remain = _target - now;
     state = Countdown(remain > 0 ? remain : 0);
+  }
+}
+
+@riverpod
+class UsdtMarginOrderbookWs extends _$UsdtMarginOrderbookWs {
+  @override
+  build() {
+    final managerAsync = ref.watch(wsTickerManagerProvider);
   }
 }

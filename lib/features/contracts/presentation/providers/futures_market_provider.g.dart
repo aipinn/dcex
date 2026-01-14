@@ -767,3 +767,57 @@ abstract class _$UsdtFundingCountdown extends $Notifier<Countdown?> {
     element.handleValue(ref, created);
   }
 }
+
+@ProviderFor(UsdtMarginOrderbookWs)
+const usdtMarginOrderbookWsProvider = UsdtMarginOrderbookWsProvider._();
+
+final class UsdtMarginOrderbookWsProvider
+    extends $NotifierProvider<UsdtMarginOrderbookWs, dynamic> {
+  const UsdtMarginOrderbookWsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'usdtMarginOrderbookWsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$usdtMarginOrderbookWsHash();
+
+  @$internal
+  @override
+  UsdtMarginOrderbookWs create() => UsdtMarginOrderbookWs();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(dynamic value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<dynamic>(value),
+    );
+  }
+}
+
+String _$usdtMarginOrderbookWsHash() =>
+    r'2a3241f923b82182994fe17a25523663c3ed0e18';
+
+abstract class _$UsdtMarginOrderbookWs extends $Notifier<dynamic> {
+  dynamic build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<dynamic, dynamic>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<dynamic, dynamic>,
+              dynamic,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}

@@ -4,7 +4,6 @@ import 'package:dcex/features/details/data/models/graph/graph/graph.dart';
 import 'package:dcex/features/details/data/models/markets/pair/pair.dart';
 import 'package:dcex/features/details/providers/details_provider.dart';
 import 'package:dcex/features/home/providers/home_provider.dart';
-import 'package:dcex/features/home/presentation/providers/home_pair_ws_provider.dart';
 import 'package:dcex/routes/router.dart';
 import 'package:dcex/shared/market/domain/entities/ticker.dart';
 import 'package:dcex/shared/presentation/widgets/async_section.dart';

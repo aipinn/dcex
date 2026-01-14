@@ -1,6 +1,6 @@
 import 'package:dcex/features/home/providers/home_provider.dart';
 import 'package:dcex/features/home/presentation/providers/home_ux_provider.dart';
-import 'package:dcex/shared/pairs_summary_manager_provider.dart';
+import 'package:dcex/shared/ws_ticker_manager_provider.dart';
 import 'package:dcex/shared/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -53,7 +53,7 @@ class HomeWsSubscriptionController {
   }
 
   void _subscribeHandle(Set<String> targetSet) {
-    final manager = ref.watch(pairSummaryWsManagerProvider).value;
+    final manager = ref.watch(wsTickerManagerProvider).value;
     if (manager == null) {
       logWarning(
         'pairSummaryWsManager is not ready yet, skipping subscription.',

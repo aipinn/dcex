@@ -1,7 +1,7 @@
 import 'package:dcex/features/details/data/models/markets/pair/pair.dart';
 import 'package:dcex/features/home/providers/home_provider.dart';
-import 'package:dcex/shared/pairs_summary_manager.dart';
-import 'package:dcex/shared/pairs_summary_manager_provider.dart';
+import 'package:dcex/shared/ws_ticker_manager.dart';
+import 'package:dcex/shared/ws_ticker_manager_provider.dart';
 import 'package:dcex/shared/utils/logger.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -56,7 +56,7 @@ final shouldSubScibeProvider = Provider.autoDispose.family<bool, String>((
 // 1. 定义一个表示首页准备就绪的状态
 class HomeReadyState extends Equatable {
   final List<Pair> pairs;
-  final PairsSummaryManager wsManager;
+  final WsTickerManager wsManager;
 
   const HomeReadyState(this.pairs, this.wsManager);
 
@@ -66,7 +66,7 @@ class HomeReadyState extends Equatable {
 
 final homeReadyProvider = Provider<AsyncValue<HomeReadyState>>((ref) {
   final pairsAsync = ref.watch(pairsProvider);
-  final wsManagerAsync = ref.watch(pairSummaryWsManagerProvider);
+  final wsManagerAsync = ref.watch(wsTickerManagerProvider);
   // logInfo('🌞 home ready build');
   if (pairsAsync.isLoading || wsManagerAsync.isLoading) {
     return const AsyncLoading();

@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:dcex/shared/market/domain/entities/ticker.dart';
-import 'package:dcex/shared/pairs_summary_manager_provider.dart';
+import 'package:dcex/shared/ws_ticker_manager_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final pairSummaryWsProvider = StreamNotifierProvider.autoDispose
@@ -13,7 +13,7 @@ class PairSummaryNotifier extends StreamNotifier<TickerEntity> {
 
   @override
   Stream<TickerEntity> build() {
-    final manager = ref.watch(pairSummaryWsManagerProvider).value!;
+    final manager = ref.watch(wsTickerManagerProvider).value!;
 
     // Emit cached value
     final cached = manager.getLastValue(symbol);

@@ -4,12 +4,13 @@ import 'package:dcex/shared/market/data/models/futures_ticker_model.dart';
 import 'package:dcex/shared/market/data/models/options_ticker_model.dart';
 import 'package:dcex/shared/market/data/models/spot_ticker_model.dart';
 import 'package:dcex/shared/market/domain/entities/ticker.dart';
+import 'package:dcex/shared/utils/debouncer.dart';
 import 'package:dcex/shared/ws_service.dart';
 import 'package:dcex/shared/utils/logger.dart';
 
-class PairsSummaryManager {
+class WsTickerManager {
   final WsService _wsService;
-  PairsSummaryManager(this._wsService) {
+  WsTickerManager(this._wsService) {
     _wsService.stream.listen(_handleTicker);
   }
 
@@ -222,20 +223,3 @@ class PairsSummaryManager {
 // 3.	缓存 ticker：取消订阅后仍显示最后数据
 // 4.	去重 sendMessage：重复订阅同一 symbol 不重复发
 // 5.	UI 只在数据变化更新：避免无效 rebuild
-
-class Debouncer {
-  final Duration delay;
-  Timer? _timer;
-
-  Debouncer({required this.delay});
-
-  run(Function() action) {
-    _timer?.cancel();
-    _timer = Timer(delay, action);
-  }
-
-  void dispose() {
-    _timer?.cancel();
-    _timer = null;
-  }
-}
