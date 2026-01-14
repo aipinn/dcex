@@ -1,6 +1,8 @@
+import 'package:dcex/core/result.dart';
 import 'package:dcex/features/details/data/models/graph/graph/graph.dart';
 import 'package:dcex/features/details/data/models/markets/pair/pair.dart';
 import 'package:dcex/features/details/data/models/orderbook/orderbook/order_book.dart';
+import 'package:dcex/features/details/data/models/orderbook/orderbook_response/orderbook_response.dart';
 import 'package:dcex/features/details/data/models/trades/trade/trade.dart';
 import 'package:dcex/features/details/data/repositories/details_repository_impl.dart';
 import 'package:dcex/features/details/providers/time_provider.dart';
@@ -32,10 +34,18 @@ final graphDataProvider = FutureProvider.family<Graph, Pair>((ref, pair) async {
 class PairOrderBook extends _$PairOrderBook {
   @override
   Future<OrderBook> build(Pair pair) async {
-    final pairSummary = await ref
+    final result = await ref
         .read(detailsRepositoryProvider)
         .getOrderBook(pair.exchange, pair.pair);
-    return pairSummary;
+
+    return result.when(
+      success: (OrderbookResponse value) {
+        return value.data.values.first;
+      },
+      failure: (String message, Object? error) {
+        throw error!;
+      },
+    );
   }
 }
 

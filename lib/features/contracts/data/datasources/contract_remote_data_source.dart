@@ -1,5 +1,7 @@
+import 'package:dcex/core/model/api_response_parse.dart';
 import 'package:dcex/core/result.dart';
 import 'package:dcex/features/contracts/data/models/contract_market_model.dart';
+import 'package:dcex/features/contracts/data/models/contract_market_response.dart';
 import 'package:dcex/features/contracts/domain/entities/contract_market.dart';
 import 'package:dcex/features/contracts/domain/entities/contract_ticker.dart';
 import 'package:dcex/features/contracts/domain/entities/funding_rate.dart';
@@ -33,18 +35,22 @@ class ContractRemoteDataSourceImpl implements ContractRemoteDataSource {
     String exchange,
     String type,
   ) async {
-    final result = await _apiClient.get(
+    final response = await _apiClient.get(
       APIConst.contractMarkets,
       queryParameters: {'exchange': exchange, 'type': type},
     );
-
-    switch (result) {
+    switch (response) {
       case Success(:final value):
-        final data = value as Map<String, dynamic>;
-        final markets = (data['data'] as List)
-            .map((json) => ContractMarketModel.fromJson(json))
-            .toList();
-        return Result.success(markets);
+        final apiResponse = parseApiResponse(
+          value as Map<String, dynamic>,
+          ContractMarketResponse.fromJson,
+        );
+
+        final data = apiResponse.data;
+        if (data != null) {
+          return Result.success(data.result);
+        }
+        return Failure(apiResponse.msg);
       case Failure(message: final msg):
         return Result.failure(msg);
     }

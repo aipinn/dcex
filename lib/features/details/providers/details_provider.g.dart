@@ -53,7 +53,7 @@ final class PairOrderBookProvider
   }
 }
 
-String _$pairOrderBookHash() => r'67cf01deb9bbd1b04296bf570afa8d35dbe3f01b';
+String _$pairOrderBookHash() => r'c694a11128cb9dfed22e02642b53a52bc125517a';
 
 /// Use codegen
 

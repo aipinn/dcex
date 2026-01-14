@@ -1,8 +1,10 @@
+import 'package:dcex/core/model/api_response.dart';
+import 'package:dcex/core/model/api_response_parse.dart';
+import 'package:dcex/core/result.dart';
 import 'package:dcex/shared/network/api_const.dart';
 import 'package:dcex/constants/data_exceptions.dart';
 import 'package:dcex/features/details/data/models/graph/graph/graph.dart';
 import 'package:dcex/features/details/data/models/graph/graph_response/graph_response.dart';
-import 'package:dcex/features/details/data/models/orderbook/orderbook/order_book.dart';
 import 'package:dcex/features/details/data/models/orderbook/orderbook_response/orderbook_response.dart';
 import 'package:dcex/features/details/data/models/trades/trade/trade.dart';
 import 'package:dcex/features/details/data/models/trades/trade_response.dart/trade_response.dart';
@@ -21,14 +23,26 @@ class DetailsRepositoryImpl implements DetailsRepositoryApi {
   DetailsRepositoryImpl(this.dio);
 
   @override
-  Future<OrderBook> getOrderBook(String exchange, String pair) async {
+  Future<Result<OrderbookResponse>> getOrderBook(
+    String exchange,
+    String pair,
+  ) async {
     // logInfo('===> Request get orderbook.');
     try {
       final response = await dio.get(
         APIConst.orderBook,
         queryParameters: {"exchange": exchange, "symbol": pair, "limit": 50},
       );
-      return OrderbookResponse.fromJson(response.data).result;
+
+      final apiResponse = parseApiResponse<OrderbookResponse>(
+        response.data,
+        OrderbookResponse.fromJson,
+      );
+      final data = apiResponse.data;
+      if (data != null) {
+        return Success(data);
+      }
+      return Failure(apiResponse.msg);
     } on DioException catch (error) {
       throw DataExceptions('message: ${error.message}');
     }
@@ -73,7 +87,16 @@ class DetailsRepositoryImpl implements DetailsRepositoryApi {
           'before': before,
         },
       );
-      return GraphResponse.fromJson(response.data).result;
+
+      final apiResponse = parseApiResponse(
+        response.data,
+        GraphResponse.fromJson,
+      );
+      final data = apiResponse.data;
+      if (data != null) {
+        return data.result;
+      }
+      throw DataExceptions(apiResponse.msg);
     } on DioException catch (error) {
       throw DataExceptions('message: ${error.message}');
     }

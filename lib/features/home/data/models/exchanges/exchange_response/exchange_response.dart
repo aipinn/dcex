@@ -6,8 +6,11 @@ part 'exchange_response.g.dart';
 
 @freezed
 abstract class ExchangeResponse with _$ExchangeResponse {
-  const factory ExchangeResponse({required List<Exchange> result}) =
-      _ExchangeResponse;
+  const factory ExchangeResponse({
+    required List<Exchange> result,
+    required int total,
+    required String source,
+  }) = _ExchangeResponse;
 
   factory ExchangeResponse.fromJson(Map<String, dynamic> json) =>
       _$ExchangeResponseFromJson(json);

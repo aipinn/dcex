@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$OrderbookResponse {
 
- OrderBook get result;
+ Map<String, OrderBook> get data; int get timestamp; String get marketType; String get exchange;
 /// Create a copy of OrderbookResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $OrderbookResponseCopyWith<OrderbookResponse> get copyWith => _$OrderbookRespons
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is OrderbookResponse&&(identical(other.result, result) || other.result == result));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OrderbookResponse&&const DeepCollectionEquality().equals(other.data, data)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.marketType, marketType) || other.marketType == marketType)&&(identical(other.exchange, exchange) || other.exchange == exchange));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,result);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(data),timestamp,marketType,exchange);
 
 @override
 String toString() {
-  return 'OrderbookResponse(result: $result)';
+  return 'OrderbookResponse(data: $data, timestamp: $timestamp, marketType: $marketType, exchange: $exchange)';
 }
 
 
@@ -45,11 +45,11 @@ abstract mixin class $OrderbookResponseCopyWith<$Res>  {
   factory $OrderbookResponseCopyWith(OrderbookResponse value, $Res Function(OrderbookResponse) _then) = _$OrderbookResponseCopyWithImpl;
 @useResult
 $Res call({
- OrderBook result
+ Map<String, OrderBook> data, int timestamp, String marketType, String exchange
 });
 
 
-$OrderBookCopyWith<$Res> get result;
+
 
 }
 /// @nodoc
@@ -62,22 +62,16 @@ class _$OrderbookResponseCopyWithImpl<$Res>
 
 /// Create a copy of OrderbookResponse
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? result = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? data = null,Object? timestamp = null,Object? marketType = null,Object? exchange = null,}) {
   return _then(_self.copyWith(
-result: null == result ? _self.result : result // ignore: cast_nullable_to_non_nullable
-as OrderBook,
+data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as Map<String, OrderBook>,timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
+as int,marketType: null == marketType ? _self.marketType : marketType // ignore: cast_nullable_to_non_nullable
+as String,exchange: null == exchange ? _self.exchange : exchange // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
-/// Create a copy of OrderbookResponse
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$OrderBookCopyWith<$Res> get result {
-  
-  return $OrderBookCopyWith<$Res>(_self.result, (value) {
-    return _then(_self.copyWith(result: value));
-  });
-}
+
 }
 
 
@@ -159,10 +153,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( OrderBook result)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Map<String, OrderBook> data,  int timestamp,  String marketType,  String exchange)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _OrderbookResponse() when $default != null:
-return $default(_that.result);case _:
+return $default(_that.data,_that.timestamp,_that.marketType,_that.exchange);case _:
   return orElse();
 
 }
@@ -180,10 +174,10 @@ return $default(_that.result);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( OrderBook result)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Map<String, OrderBook> data,  int timestamp,  String marketType,  String exchange)  $default,) {final _that = this;
 switch (_that) {
 case _OrderbookResponse():
-return $default(_that.result);case _:
+return $default(_that.data,_that.timestamp,_that.marketType,_that.exchange);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -200,10 +194,10 @@ return $default(_that.result);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( OrderBook result)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Map<String, OrderBook> data,  int timestamp,  String marketType,  String exchange)?  $default,) {final _that = this;
 switch (_that) {
 case _OrderbookResponse() when $default != null:
-return $default(_that.result);case _:
+return $default(_that.data,_that.timestamp,_that.marketType,_that.exchange);case _:
   return null;
 
 }
@@ -215,10 +209,19 @@ return $default(_that.result);case _:
 
 
 class _OrderbookResponse implements OrderbookResponse {
-  const _OrderbookResponse(this.result);
+  const _OrderbookResponse({required final  Map<String, OrderBook> data, required this.timestamp, required this.marketType, required this.exchange}): _data = data;
   
 
-@override final  OrderBook result;
+ final  Map<String, OrderBook> _data;
+@override Map<String, OrderBook> get data {
+  if (_data is EqualUnmodifiableMapView) return _data;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_data);
+}
+
+@override final  int timestamp;
+@override final  String marketType;
+@override final  String exchange;
 
 /// Create a copy of OrderbookResponse
 /// with the given fields replaced by the non-null parameter values.
@@ -230,16 +233,16 @@ _$OrderbookResponseCopyWith<_OrderbookResponse> get copyWith => __$OrderbookResp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OrderbookResponse&&(identical(other.result, result) || other.result == result));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OrderbookResponse&&const DeepCollectionEquality().equals(other._data, _data)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.marketType, marketType) || other.marketType == marketType)&&(identical(other.exchange, exchange) || other.exchange == exchange));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,result);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_data),timestamp,marketType,exchange);
 
 @override
 String toString() {
-  return 'OrderbookResponse(result: $result)';
+  return 'OrderbookResponse(data: $data, timestamp: $timestamp, marketType: $marketType, exchange: $exchange)';
 }
 
 
@@ -250,11 +253,11 @@ abstract mixin class _$OrderbookResponseCopyWith<$Res> implements $OrderbookResp
   factory _$OrderbookResponseCopyWith(_OrderbookResponse value, $Res Function(_OrderbookResponse) _then) = __$OrderbookResponseCopyWithImpl;
 @override @useResult
 $Res call({
- OrderBook result
+ Map<String, OrderBook> data, int timestamp, String marketType, String exchange
 });
 
 
-@override $OrderBookCopyWith<$Res> get result;
+
 
 }
 /// @nodoc
@@ -267,23 +270,17 @@ class __$OrderbookResponseCopyWithImpl<$Res>
 
 /// Create a copy of OrderbookResponse
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? result = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? data = null,Object? timestamp = null,Object? marketType = null,Object? exchange = null,}) {
   return _then(_OrderbookResponse(
-null == result ? _self.result : result // ignore: cast_nullable_to_non_nullable
-as OrderBook,
+data: null == data ? _self._data : data // ignore: cast_nullable_to_non_nullable
+as Map<String, OrderBook>,timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
+as int,marketType: null == marketType ? _self.marketType : marketType // ignore: cast_nullable_to_non_nullable
+as String,exchange: null == exchange ? _self.exchange : exchange // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 
-/// Create a copy of OrderbookResponse
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$OrderBookCopyWith<$Res> get result {
-  
-  return $OrderBookCopyWith<$Res>(_self.result, (value) {
-    return _then(_self.copyWith(result: value));
-  });
-}
+
 }
 
 // dart format on

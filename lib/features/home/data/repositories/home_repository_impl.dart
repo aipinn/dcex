@@ -1,7 +1,8 @@
+import 'package:dcex/core/model/api_response_parse.dart';
+import 'package:dcex/core/result.dart';
 import 'package:dcex/shared/network/api_const.dart';
 import 'package:dcex/constants/data_exceptions.dart';
 import 'package:dcex/features/details/data/models/markets/market_response/market_response.dart';
-import 'package:dcex/features/details/data/models/markets/pair/pair.dart';
 import 'package:dcex/features/home/data/models/exchanges/exchange/exchange.dart';
 import 'package:dcex/features/home/data/models/exchanges/exchange_response/exchange_response.dart';
 import 'package:dcex/features/home/domain/home_repository_api.dart';
@@ -20,44 +21,51 @@ class HomeRepositoryImpl implements HomeRepositoryApi {
   HomeRepositoryImpl(this.dio);
 
   @override
-  Future<List<Exchange>> getExchanges() async {
+  Future<Result<List<Exchange>>> getExchanges() async {
     logInfo('===> Request get exchanges.');
     try {
       final response = await dio.get(APIConst.exchanges);
-      return ExchangeResponse.fromJson(response.data).result;
+
+      final apiResponse = parseApiResponse(
+        response.data,
+        ExchangeResponse.fromJson,
+      );
+      final data = apiResponse.data;
+      if (data != null) {
+        return Success(data.result);
+      }
+      return Failure(apiResponse.msg);
     } on DioException catch (error) {
       throw DataExceptions('message: ${error.message}');
     }
   }
 
-  // @override
-  // Future<PairSummary> getPairSummary(String exchange, String pair) async {
-  //   logInfo('===> Request get pair summary');
-  //   try {
-  //     final response = await dio.get(
-  //       APIConst.pairSummary,
-  //       queryParameters: {"exchange": exchange, "symbol": pair},
-  //     );
-  //     return PairResponse.fromJson(response.data).result;
-  //   } on DioException catch (error) {
-  //     throw DataExceptions('message: ${error.message}');
-  //   }
-  // }
-
   @override
-  Future<List<Pair>> getPairs(String exchange) async {
+  Future<Result<MarketResponse>> getPairs(
+    String exchange, {
+    String market = 'spot',
+  }) async {
     logInfo('===> Request get pairs.');
     try {
       final response = await dio.get(
         APIConst.pair,
         queryParameters: {
           'exchange': exchange,
-          'market': 'spot',
+          'market': market,
           'page': 1,
-          'page_size': 100,
+          'page_size': 30,
         },
       );
-      return MarketResponse.fromJson(response.data).result.spot;
+
+      final apiResponse = parseApiResponse(
+        response.data,
+        MarketResponse.fromJson,
+      );
+      final data = apiResponse.data;
+      if (data != null) {
+        return Success(data);
+      }
+      return Failure(apiResponse.msg);
     } on DioException catch (error) {
       throw DataExceptions('message: ${error.message}');
     }

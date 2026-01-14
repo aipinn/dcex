@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$OrderBook {
 
- List<Price> get asks; List<Price> get bids; int get seqNum; String get symbol; int get timestamp;
+ List<Price> get asks; List<Price> get bids; int get nonce; String get symbol; int get timestamp;
 /// Create a copy of OrderBook
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $OrderBookCopyWith<OrderBook> get copyWith => _$OrderBookCopyWithImpl<OrderBook>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is OrderBook&&const DeepCollectionEquality().equals(other.asks, asks)&&const DeepCollectionEquality().equals(other.bids, bids)&&(identical(other.seqNum, seqNum) || other.seqNum == seqNum)&&(identical(other.symbol, symbol) || other.symbol == symbol)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OrderBook&&const DeepCollectionEquality().equals(other.asks, asks)&&const DeepCollectionEquality().equals(other.bids, bids)&&(identical(other.nonce, nonce) || other.nonce == nonce)&&(identical(other.symbol, symbol) || other.symbol == symbol)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(asks),const DeepCollectionEquality().hash(bids),seqNum,symbol,timestamp);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(asks),const DeepCollectionEquality().hash(bids),nonce,symbol,timestamp);
 
 @override
 String toString() {
-  return 'OrderBook(asks: $asks, bids: $bids, seqNum: $seqNum, symbol: $symbol, timestamp: $timestamp)';
+  return 'OrderBook(asks: $asks, bids: $bids, nonce: $nonce, symbol: $symbol, timestamp: $timestamp)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $OrderBookCopyWith<$Res>  {
   factory $OrderBookCopyWith(OrderBook value, $Res Function(OrderBook) _then) = _$OrderBookCopyWithImpl;
 @useResult
 $Res call({
- List<Price> asks, List<Price> bids, int seqNum, String symbol, int timestamp
+ List<Price> asks, List<Price> bids, int nonce, String symbol, int timestamp
 });
 
 
@@ -62,11 +62,11 @@ class _$OrderBookCopyWithImpl<$Res>
 
 /// Create a copy of OrderBook
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? asks = null,Object? bids = null,Object? seqNum = null,Object? symbol = null,Object? timestamp = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? asks = null,Object? bids = null,Object? nonce = null,Object? symbol = null,Object? timestamp = null,}) {
   return _then(_self.copyWith(
 asks: null == asks ? _self.asks : asks // ignore: cast_nullable_to_non_nullable
 as List<Price>,bids: null == bids ? _self.bids : bids // ignore: cast_nullable_to_non_nullable
-as List<Price>,seqNum: null == seqNum ? _self.seqNum : seqNum // ignore: cast_nullable_to_non_nullable
+as List<Price>,nonce: null == nonce ? _self.nonce : nonce // ignore: cast_nullable_to_non_nullable
 as int,symbol: null == symbol ? _self.symbol : symbol // ignore: cast_nullable_to_non_nullable
 as String,timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
 as int,
@@ -154,10 +154,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Price> asks,  List<Price> bids,  int seqNum,  String symbol,  int timestamp)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Price> asks,  List<Price> bids,  int nonce,  String symbol,  int timestamp)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _OrderBook() when $default != null:
-return $default(_that.asks,_that.bids,_that.seqNum,_that.symbol,_that.timestamp);case _:
+return $default(_that.asks,_that.bids,_that.nonce,_that.symbol,_that.timestamp);case _:
   return orElse();
 
 }
@@ -175,10 +175,10 @@ return $default(_that.asks,_that.bids,_that.seqNum,_that.symbol,_that.timestamp)
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Price> asks,  List<Price> bids,  int seqNum,  String symbol,  int timestamp)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Price> asks,  List<Price> bids,  int nonce,  String symbol,  int timestamp)  $default,) {final _that = this;
 switch (_that) {
 case _OrderBook():
-return $default(_that.asks,_that.bids,_that.seqNum,_that.symbol,_that.timestamp);case _:
+return $default(_that.asks,_that.bids,_that.nonce,_that.symbol,_that.timestamp);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +195,10 @@ return $default(_that.asks,_that.bids,_that.seqNum,_that.symbol,_that.timestamp)
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Price> asks,  List<Price> bids,  int seqNum,  String symbol,  int timestamp)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Price> asks,  List<Price> bids,  int nonce,  String symbol,  int timestamp)?  $default,) {final _that = this;
 switch (_that) {
 case _OrderBook() when $default != null:
-return $default(_that.asks,_that.bids,_that.seqNum,_that.symbol,_that.timestamp);case _:
+return $default(_that.asks,_that.bids,_that.nonce,_that.symbol,_that.timestamp);case _:
   return null;
 
 }
@@ -210,7 +210,7 @@ return $default(_that.asks,_that.bids,_that.seqNum,_that.symbol,_that.timestamp)
 
 
 class _OrderBook implements OrderBook {
-  const _OrderBook(final  List<Price> asks, final  List<Price> bids, this.seqNum, this.symbol, this.timestamp): _asks = asks,_bids = bids;
+  const _OrderBook(final  List<Price> asks, final  List<Price> bids, this.nonce, this.symbol, this.timestamp): _asks = asks,_bids = bids;
   
 
  final  List<Price> _asks;
@@ -227,7 +227,7 @@ class _OrderBook implements OrderBook {
   return EqualUnmodifiableListView(_bids);
 }
 
-@override final  int seqNum;
+@override final  int nonce;
 @override final  String symbol;
 @override final  int timestamp;
 
@@ -241,16 +241,16 @@ _$OrderBookCopyWith<_OrderBook> get copyWith => __$OrderBookCopyWithImpl<_OrderB
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OrderBook&&const DeepCollectionEquality().equals(other._asks, _asks)&&const DeepCollectionEquality().equals(other._bids, _bids)&&(identical(other.seqNum, seqNum) || other.seqNum == seqNum)&&(identical(other.symbol, symbol) || other.symbol == symbol)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OrderBook&&const DeepCollectionEquality().equals(other._asks, _asks)&&const DeepCollectionEquality().equals(other._bids, _bids)&&(identical(other.nonce, nonce) || other.nonce == nonce)&&(identical(other.symbol, symbol) || other.symbol == symbol)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_asks),const DeepCollectionEquality().hash(_bids),seqNum,symbol,timestamp);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_asks),const DeepCollectionEquality().hash(_bids),nonce,symbol,timestamp);
 
 @override
 String toString() {
-  return 'OrderBook(asks: $asks, bids: $bids, seqNum: $seqNum, symbol: $symbol, timestamp: $timestamp)';
+  return 'OrderBook(asks: $asks, bids: $bids, nonce: $nonce, symbol: $symbol, timestamp: $timestamp)';
 }
 
 
@@ -261,7 +261,7 @@ abstract mixin class _$OrderBookCopyWith<$Res> implements $OrderBookCopyWith<$Re
   factory _$OrderBookCopyWith(_OrderBook value, $Res Function(_OrderBook) _then) = __$OrderBookCopyWithImpl;
 @override @useResult
 $Res call({
- List<Price> asks, List<Price> bids, int seqNum, String symbol, int timestamp
+ List<Price> asks, List<Price> bids, int nonce, String symbol, int timestamp
 });
 
 
@@ -278,11 +278,11 @@ class __$OrderBookCopyWithImpl<$Res>
 
 /// Create a copy of OrderBook
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? asks = null,Object? bids = null,Object? seqNum = null,Object? symbol = null,Object? timestamp = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? asks = null,Object? bids = null,Object? nonce = null,Object? symbol = null,Object? timestamp = null,}) {
   return _then(_OrderBook(
 null == asks ? _self._asks : asks // ignore: cast_nullable_to_non_nullable
 as List<Price>,null == bids ? _self._bids : bids // ignore: cast_nullable_to_non_nullable
-as List<Price>,null == seqNum ? _self.seqNum : seqNum // ignore: cast_nullable_to_non_nullable
+as List<Price>,null == nonce ? _self.nonce : nonce // ignore: cast_nullable_to_non_nullable
 as int,null == symbol ? _self.symbol : symbol // ignore: cast_nullable_to_non_nullable
 as String,null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
 as int,

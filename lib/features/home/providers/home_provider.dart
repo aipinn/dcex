@@ -12,10 +12,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Get exchange list
 final exchangesProvider = FutureProvider<List<Exchange>>((ref) async {
-  List<Exchange> exchanges = await ref
-      .read(homeRepositoryProvider)
-      .getExchanges();
-  return exchanges;
+  final exchanges = await ref.read(homeRepositoryProvider).getExchanges();
+  return exchanges.when(
+    success: (List<Exchange> value) {
+      return value;
+    },
+    failure: (String message, Object? error) {
+      throw error!;
+    },
+  );
 });
 
 /// Get pair summary
@@ -89,8 +94,19 @@ class PairsNotifier extends Notifier<AsyncValue<List<Pair>>> {
     try {
       final pairs = await ref.read(homeRepositoryProvider).getPairs(exchange);
 
-      logInfo('❤️ fetched ${pairs.length} pairs');
-      state = AsyncValue.data(pairs);
+      pairs.when(
+        success: (value) {
+          logInfo(
+            '❤️ fetched spot: ${value.result.spot.length} pairs, options: ${value.result.option.length} pairs, future: ${value.result.future.length} pairs',
+          );
+
+          //todo: 先使用现货调试
+          state = AsyncValue.data(value.result.spot);
+        },
+        failure: (String message, Object? error) {
+          state = AsyncValue.error(message, StackTrace.empty);
+        },
+      );
     } catch (e, s) {
       logError('❤️ fetch failed: $e');
       state = AsyncValue.error(e, s);
@@ -110,73 +126,73 @@ class PairsNotifier extends Notifier<AsyncValue<List<Pair>>> {
 /// 废弃，体验不好
 /// 此方案，当切换exchange后，其依赖的settingsProvider改变，会导致pairsProvider dispose，
 /// 当返回Home进行watch后重建，此时才去获取最新数据 首页进度loading状态，体验不好，使用NotifierProvider方式
-final pairsProvider2 = FutureProvider<List<Pair>>((ref) async {
-  logInfo('🔥 pairsProvider 创建');
-  ref.onDispose(() {
-    logInfo('🔥 pairsProvider 被销毁');
-  });
+// final pairsProvider2 = FutureProvider<List<Pair>>((ref) async {
+//   logInfo('🔥 pairsProvider 创建');
+//   ref.onDispose(() {
+//     logInfo('🔥 pairsProvider 被销毁');
+//   });
 
-  ref.onAddListener(() {
-    logInfo('🔥 pairsProvider addListener');
-  });
+//   ref.onAddListener(() {
+//     logInfo('🔥 pairsProvider addListener');
+//   });
 
-  ref.onRemoveListener(() {
-    logInfo('🔥 pairsProvider removeListener');
-  });
+//   ref.onRemoveListener(() {
+//     logInfo('🔥 pairsProvider removeListener');
+//   });
 
-  ref.onCancel(() {
-    logInfo('🔥 pairsProvider cancel');
-  });
+//   ref.onCancel(() {
+//     logInfo('🔥 pairsProvider cancel');
+//   });
 
-  // ✅ 改用这种方式，持续监听 settingsProvider
-  final exchangeName = await ref.watch(
-    settingsProvider.selectAsync((s) => s.favoriteExchange),
-  );
+//   // ✅ 改用这种方式，持续监听 settingsProvider
+//   final exchangeName = await ref.watch(
+//     settingsProvider.selectAsync((s) => s.favoriteExchange),
+//   );
 
-  logInfo('🔥 获取数据: $exchangeName');
-  List<Pair> pairs = await ref
-      .read(homeRepositoryProvider)
-      .getPairs(exchangeName);
+//   logInfo('🔥 获取数据: $exchangeName');
+//   List<Pair> pairs = await ref
+//       .read(homeRepositoryProvider)
+//       .getPairs(exchangeName);
 
-  logInfo('🔥 完成: ${pairs.length}');
-  return pairs;
-});
+//   logInfo('🔥 完成: ${pairs.length}');
+//   return pairs;
+// });
 
 /// 可行但不推荐的方案
-final pairsProvider3 = StreamProvider<List<Pair>>((ref) {
-  // ref.keepAlive();
+// final pairsProvider3 = StreamProvider<List<Pair>>((ref) {
+//   // ref.keepAlive();
 
-  final controller = StreamController<List<Pair>>();
+//   final controller = StreamController<List<Pair>>();
 
-  logInfo('🌈 pairsStreamProvider create');
+//   logInfo('🌈 pairsStreamProvider create');
 
-  void fetch(String exchange) async {
-    logInfo('🌈 fetching pairs for $exchange');
-    try {
-      final pairs = await ref.read(homeRepositoryProvider).getPairs(exchange);
-      controller.add(pairs);
-      logInfo('🌈 fetched ${pairs.length} pairs');
-    } catch (e, s) {
-      controller.addError(e, s);
-    }
-  }
+//   void fetch(String exchange) async {
+//     logInfo('🌈 fetching pairs for $exchange');
+//     try {
+//       final pairs = await ref.read(homeRepositoryProvider).getPairs(exchange);
+//       controller.add(pairs);
+//       logInfo('🌈 fetched ${pairs.length} pairs');
+//     } catch (e, s) {
+//       controller.addError(e, s);
+//     }
+//   }
 
-  // 监听 exchange 变化
-  final sub = ref.listen<String?>(
-    settingsProvider.select((s) => s.value?.favoriteExchange),
-    (prev, next) {
-      if (next != null && next != prev) {
-        fetch(next);
-      }
-    },
-    fireImmediately: true, // 首次立刻 fetch
-  );
+//   // 监听 exchange 变化
+//   final sub = ref.listen<String?>(
+//     settingsProvider.select((s) => s.value?.favoriteExchange),
+//     (prev, next) {
+//       if (next != null && next != prev) {
+//         fetch(next);
+//       }
+//     },
+//     fireImmediately: true, // 首次立刻 fetch
+//   );
 
-  ref.onDispose(() {
-    logInfo('🌈 pairsStreamProvider dispose');
-    sub.close();
-    controller.close();
-  });
+//   ref.onDispose(() {
+//     logInfo('🌈 pairsStreamProvider dispose');
+//     sub.close();
+//     controller.close();
+//   });
 
-  return controller.stream;
-});
+//   return controller.stream;
+// });

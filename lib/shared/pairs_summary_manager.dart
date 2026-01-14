@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:dcex/core/model/api_response.dart';
 import 'package:dcex/shared/market/data/models/futures_ticker_model.dart';
 import 'package:dcex/shared/market/data/models/options_ticker_model.dart';
 import 'package:dcex/shared/market/data/models/spot_ticker_model.dart';
@@ -147,7 +148,7 @@ class PairsSummaryManager {
     _wsService.send({
       'action': 'subscribe',
       'symbol': symbol,
-      'marketType': '',
+      'marketType': 'future',
     });
   }
 
@@ -159,18 +160,18 @@ class PairsSummaryManager {
   void _handleTicker(Map<String, dynamic> msg) {
     // Message: {"type": "ticker", "data": {json payload}}
     // logInfo('🎉 handle: $msg');
-    final type = msg['type'];
+    final tickerPayload = ApiResponse.fromJson(msg, null);
+    final data = tickerPayload.data as Map<String, dynamic>;
+
+    final type = tickerPayload.type;
     if (type == 'ticker') {
-      _handleTickerMessage(msg);
+      _handleTickerMessage(data);
     }
   }
 
   void _handleTickerMessage(Map<String, dynamic> data) {
-    // Unload
-    final payload = data['data'];
-    if (payload == null) return;
     // Check
-    final symbol = payload['symbol'];
+    final symbol = data['symbol'];
     if (symbol == null) return;
     // Double check
     final controller = _tickerControllers[symbol];
@@ -194,7 +195,7 @@ class PairsSummaryManager {
       }
     }
 
-    final ticker = fromJson(payload);
+    final ticker = fromJson(data);
     // Send data if needed
     _emit(controller, symbol, ticker);
   }

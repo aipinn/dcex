@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dcex/constants/app_constants.dart';
+import 'package:dcex/core/model/api_response.dart';
+import 'package:dcex/core/model/api_response_parse.dart';
 import 'package:dcex/shared/utils/logger.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -138,7 +140,9 @@ class WsService {
   /// Delivering message to Business Logic
   void _handleData(String data) {
     final msg = jsonDecode(data);
-    if (msg['action'] == 'pong') {
+    final tickerPayload =
+        ApiResponse.fromJson(msg, null).data as Map<String, dynamic>;
+    if (tickerPayload['action'] == 'pong') {
       _pongTimeoutTimer?.cancel();
       return;
     }

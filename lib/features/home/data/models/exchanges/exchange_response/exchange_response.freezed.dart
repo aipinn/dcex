@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ExchangeResponse {
 
- List<Exchange> get result;
+ List<Exchange> get result; int get total; String get source;
 /// Create a copy of ExchangeResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $ExchangeResponseCopyWith<ExchangeResponse> get copyWith => _$ExchangeResponseCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExchangeResponse&&const DeepCollectionEquality().equals(other.result, result));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExchangeResponse&&const DeepCollectionEquality().equals(other.result, result)&&(identical(other.total, total) || other.total == total)&&(identical(other.source, source) || other.source == source));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(result));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(result),total,source);
 
 @override
 String toString() {
-  return 'ExchangeResponse(result: $result)';
+  return 'ExchangeResponse(result: $result, total: $total, source: $source)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $ExchangeResponseCopyWith<$Res>  {
   factory $ExchangeResponseCopyWith(ExchangeResponse value, $Res Function(ExchangeResponse) _then) = _$ExchangeResponseCopyWithImpl;
 @useResult
 $Res call({
- List<Exchange> result
+ List<Exchange> result, int total, String source
 });
 
 
@@ -65,10 +65,12 @@ class _$ExchangeResponseCopyWithImpl<$Res>
 
 /// Create a copy of ExchangeResponse
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? result = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? result = null,Object? total = null,Object? source = null,}) {
   return _then(_self.copyWith(
 result: null == result ? _self.result : result // ignore: cast_nullable_to_non_nullable
-as List<Exchange>,
+as List<Exchange>,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
+as int,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 
@@ -153,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Exchange> result)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Exchange> result,  int total,  String source)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ExchangeResponse() when $default != null:
-return $default(_that.result);case _:
+return $default(_that.result,_that.total,_that.source);case _:
   return orElse();
 
 }
@@ -174,10 +176,10 @@ return $default(_that.result);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Exchange> result)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Exchange> result,  int total,  String source)  $default,) {final _that = this;
 switch (_that) {
 case _ExchangeResponse():
-return $default(_that.result);case _:
+return $default(_that.result,_that.total,_that.source);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -194,10 +196,10 @@ return $default(_that.result);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Exchange> result)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Exchange> result,  int total,  String source)?  $default,) {final _that = this;
 switch (_that) {
 case _ExchangeResponse() when $default != null:
-return $default(_that.result);case _:
+return $default(_that.result,_that.total,_that.source);case _:
   return null;
 
 }
@@ -209,7 +211,7 @@ return $default(_that.result);case _:
 @JsonSerializable()
 
 class _ExchangeResponse implements ExchangeResponse {
-  const _ExchangeResponse({required final  List<Exchange> result}): _result = result;
+  const _ExchangeResponse({required final  List<Exchange> result, required this.total, required this.source}): _result = result;
   factory _ExchangeResponse.fromJson(Map<String, dynamic> json) => _$ExchangeResponseFromJson(json);
 
  final  List<Exchange> _result;
@@ -219,6 +221,8 @@ class _ExchangeResponse implements ExchangeResponse {
   return EqualUnmodifiableListView(_result);
 }
 
+@override final  int total;
+@override final  String source;
 
 /// Create a copy of ExchangeResponse
 /// with the given fields replaced by the non-null parameter values.
@@ -233,16 +237,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ExchangeResponse&&const DeepCollectionEquality().equals(other._result, _result));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ExchangeResponse&&const DeepCollectionEquality().equals(other._result, _result)&&(identical(other.total, total) || other.total == total)&&(identical(other.source, source) || other.source == source));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_result));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_result),total,source);
 
 @override
 String toString() {
-  return 'ExchangeResponse(result: $result)';
+  return 'ExchangeResponse(result: $result, total: $total, source: $source)';
 }
 
 
@@ -253,7 +257,7 @@ abstract mixin class _$ExchangeResponseCopyWith<$Res> implements $ExchangeRespon
   factory _$ExchangeResponseCopyWith(_ExchangeResponse value, $Res Function(_ExchangeResponse) _then) = __$ExchangeResponseCopyWithImpl;
 @override @useResult
 $Res call({
- List<Exchange> result
+ List<Exchange> result, int total, String source
 });
 
 
@@ -270,10 +274,12 @@ class __$ExchangeResponseCopyWithImpl<$Res>
 
 /// Create a copy of ExchangeResponse
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? result = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? result = null,Object? total = null,Object? source = null,}) {
   return _then(_ExchangeResponse(
 result: null == result ? _self._result : result // ignore: cast_nullable_to_non_nullable
-as List<Exchange>,
+as List<Exchange>,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
+as int,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

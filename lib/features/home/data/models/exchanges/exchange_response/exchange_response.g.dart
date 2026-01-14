@@ -11,7 +11,13 @@ _ExchangeResponse _$ExchangeResponseFromJson(Map<String, dynamic> json) =>
       result: (json['result'] as List<dynamic>)
           .map((e) => Exchange.fromJson(e as Map<String, dynamic>))
           .toList(),
+      total: (json['total'] as num).toInt(),
+      source: json['source'] as String,
     );
 
 Map<String, dynamic> _$ExchangeResponseToJson(_ExchangeResponse instance) =>
-    <String, dynamic>{'result': instance.result};
+    <String, dynamic>{
+      'result': instance.result,
+      'total': instance.total,
+      'source': instance.source,
+    };
