@@ -2,6 +2,8 @@
 
 A **crypto exchange aggregation preview project** built with **Flutter** and **CCXT**.
 
+📄 中文文档： [README_CN.md](README_CN.md)
+
 This project focuses on providing a unified market overview across multiple cryptocurrency exchanges, including real-time ticker data, market lists, and trend visualization.
 
 > ⚠️ **Status**: Work in Progress  
