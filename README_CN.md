@@ -1,5 +1,7 @@
 # dcex
 
+Language: 简体中文 | [English](README.md)
+
 一个基于 **Flutter** 和 **CCXT** 构建的 **加密货币交易所聚合预览项目**。
 
 该项目旨在对接多个主流加密货币交易所，提供统一的行情视图，包括实时 Ticker 数据、市场列表以及趋势展示能力。
@@ -46,8 +48,7 @@
 
 要完整运行该项目，你还需要单独部署并运行后端服务。
 
-👉 后端仓库（必需）：  
-**https://github.com/aipinn/dcex_server.git**
+后端仓库（必需）：[dcex_server](https://github.com/aipinn/dcex_server.git)
 
 请确保后端服务已启动后，再运行 Flutter 客户端。
 

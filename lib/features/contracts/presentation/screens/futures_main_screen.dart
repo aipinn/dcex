@@ -1,5 +1,5 @@
 import 'package:dcex/core/enums/futures_market_type.dart';
-import 'package:dcex/features/contracts/presentation/providers/futures_market_provider.dart';
+import 'package:dcex/features/contracts/presentation/providers/contract_market_selection_provider.dart';
 import 'package:dcex/features/contracts/presentation/screens/markets/coin_margin_trade_screen.dart';
 import 'package:dcex/features/contracts/presentation/screens/markets/usdt_margin_trade_screen.dart';
 import 'package:dcex/features/contracts/presentation/screens/markets/options_trade_screen.dart';

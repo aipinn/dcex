@@ -84,7 +84,7 @@ class PairTitleWidget extends ConsumerWidget {
               Consumer(
                 builder: (BuildContext context, WidgetRef ref, Widget? child) {
                   final summary = ref.watch(pairSummaryProvider(pair));
-                  final summary1 = ref.watch(pairSummaryWsProvider(pair.pair));
+                  //final summary1 = ref.watch(pairSummaryWsProvider(pair.pair));
                   return AsyncSection(
                     value: summary,
                     builder: (TickerEntity data) {

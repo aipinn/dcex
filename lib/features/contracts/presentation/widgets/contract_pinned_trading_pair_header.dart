@@ -1,5 +1,4 @@
-import 'package:dcex/features/contracts/domain/entities/contract_market.dart';
-import 'package:dcex/features/contracts/presentation/providers/futures_market_provider.dart';
+import 'package:dcex/features/contracts/presentation/providers/futures_runtime_provider.dart';
 import 'package:dcex/features/contracts/presentation/screens/markets/future_markets_select_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,7 +32,8 @@ class _TradingPairHeaderDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    final symbol = ref.watch(selectedInverseContractMarketProvider).pair;
+    final symbol = ref.watch(currentInverseSymbolProvider);
+    if (symbol == null) return const SizedBox.shrink();
 
     return Container(
       height: minExtent,

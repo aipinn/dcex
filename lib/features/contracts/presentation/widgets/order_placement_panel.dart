@@ -1,6 +1,7 @@
 import 'package:dcex/core/enums/margin_mode.dart';
 import 'package:dcex/core/theme/app_theme.dart';
-import 'package:dcex/features/contracts/presentation/providers/futures_market_provider.dart';
+import 'package:dcex/features/contracts/presentation/providers/futures_ui_state_provider.dart';
+import 'package:dcex/features/contracts/presentation/providers/order_form_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -137,11 +137,16 @@ class WsService {
   }
 
   /// Delivering message to Business Logic
-  void _handleData(String data) {
-    final msg = jsonDecode(data);
-    final tickerPayload =
-        ApiResponse.fromJson(msg, null).data as Map<String, dynamic>;
-    if (tickerPayload['action'] == 'pong') {
+  void _handleData(String rawMsg) {
+    final msg = jsonDecode(rawMsg);
+    final data = ApiResponse.fromJson(msg, null).data;
+    if (data == null) {
+      logError('ws handle data error: $msg');
+      _pongTimeoutTimer?.cancel();
+      return;
+    }
+    final result = data as Map<String, dynamic>;
+    if (result['action'] == 'pong') {
       _pongTimeoutTimer?.cancel();
       return;
     }

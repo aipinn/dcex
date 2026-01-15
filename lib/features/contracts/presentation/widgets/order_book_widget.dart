@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'package:dcex/core/theme/app_theme.dart';
-import 'package:dcex/features/contracts/presentation/providers/futures_market_provider.dart';
+import 'package:dcex/features/contracts/presentation/providers/futures_runtime_provider.dart';
+import 'package:dcex/features/contracts/presentation/providers/futures_ui_state_provider.dart';
+import 'package:dcex/features/contracts/presentation/providers/order_form_provider.dart';
 import 'package:dcex/features/contracts/presentation/providers/futures_ws_provider.dart';
 import 'package:dcex/features/details/presentation/widgets/order_book_tile.dart';
 import 'package:dcex/shared/presentation/widgets/async_section.dart';
@@ -15,7 +17,8 @@ class OrderBookWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ticker = ref.watch(currentInverseEntityProvider);
+    final ticker = ref.watch(currentInverseOrderBookUIProvider);
+    if (ticker == null) return const SizedBox.shrink();
 
     logInfo(
       '🖐️ 🖐️ 🖐️ ${(ticker.fundingRate)} next: ${ticker.getNextFundingTime}',
@@ -127,9 +130,8 @@ class OrderBookWidget extends ConsumerWidget {
           // Asks (Sell orders) - Red
           Consumer(
             builder: (BuildContext context, WidgetRef ref, Widget? child) {
-              final item = ref.watch(currentInverseEntityProvider);
               final orderbook = ref.watch(
-                futureOrderbookWsProvider(item.symbol),
+                futureOrderbookWsProvider(ticker.symbol),
               );
               return AsyncSection(
                 value: orderbook,
@@ -200,9 +202,8 @@ class OrderBookWidget extends ConsumerWidget {
           // Bids (Buy orders) - Green
           Consumer(
             builder: (BuildContext context, WidgetRef ref, Widget? child) {
-              final item = ref.watch(currentInverseEntityProvider);
               final orderbook = ref.watch(
-                futureOrderbookWsProvider(item.symbol),
+                futureOrderbookWsProvider(ticker.symbol),
               );
               return AsyncSection(
                 value: orderbook,

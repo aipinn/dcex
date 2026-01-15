@@ -2,7 +2,7 @@
 
 A **crypto exchange aggregation preview project** built with **Flutter** and **CCXT**.
 
-📄 中文文档： [README_CN.md](README_CN.md)
+Language: English | [简体中文](README_CN.md)
 
 This project focuses on providing a unified market overview across multiple cryptocurrency exchanges, including real-time ticker data, market lists, and trend visualization.
 
@@ -47,8 +47,7 @@ This repository **only contains the Flutter client**.
 
 To run the app successfully, you also need to set up and run the backend service.
 
-👉 Backend repository (required):  
-**https://github.com/aipinn/dcex_server.git**
+Backend repository (required): [dcex_server](https://github.com/aipinn/dcex_server.git)
 
 Make sure the backend service is running before launching the Flutter app.
 
