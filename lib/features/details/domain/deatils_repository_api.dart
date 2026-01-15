@@ -15,7 +15,7 @@ abstract class DetailsRepositoryApi {
   });
 
   /// Get the order book of a pair
-  Future<Result<OrderbookResponse>> getOrderBook(String market, String pair);
+  Future<Result<OrderBook>> getOrderBook(String market, String pair);
 
   /// Get the trade of a pair
   Future<List<Trade>> getTrades(String market, String pair);

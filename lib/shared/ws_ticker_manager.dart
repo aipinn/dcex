@@ -217,9 +217,3 @@ class WsTickerManager {
     controller.add(next);
   }
 }
-
-// 1.	provider 生命周期延长：不 autoDispose，或者加 keepAlive()
-// 2.	延迟 unsubscribe：滚动滑出屏幕时短延迟取消
-// 3.	缓存 ticker：取消订阅后仍显示最后数据
-// 4.	去重 sendMessage：重复订阅同一 symbol 不重复发
-// 5.	UI 只在数据变化更新：避免无效 rebuild

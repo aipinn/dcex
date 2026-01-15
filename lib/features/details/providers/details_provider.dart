@@ -39,8 +39,8 @@ class PairOrderBook extends _$PairOrderBook {
         .getOrderBook(pair.exchange, pair.pair);
 
     return result.when(
-      success: (OrderbookResponse value) {
-        return value.data.values.first;
+      success: (OrderBook value) {
+        return value;
       },
       failure: (String message, Object? error) {
         throw error!;

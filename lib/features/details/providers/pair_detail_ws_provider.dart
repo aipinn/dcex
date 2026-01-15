@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:dcex/shared/market/domain/entities/ticker.dart';
-import 'package:dcex/shared/ws_ticker_manager_provider.dart';
+import 'package:dcex/shared/ws_manager_provider.dart';
 import 'package:dcex/shared/utils/logger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -3,11 +3,13 @@ import 'package:dcex/core/theme/app_theme.dart';
 import 'package:dcex/features/details/data/models/graph/graph/graph.dart';
 import 'package:dcex/features/details/data/models/markets/pair/pair.dart';
 import 'package:dcex/features/details/providers/details_provider.dart';
+import 'package:dcex/features/home/presentation/providers/home_pair_ws_provider.dart';
 import 'package:dcex/features/home/providers/home_provider.dart';
 import 'package:dcex/routes/router.dart';
 import 'package:dcex/shared/market/domain/entities/ticker.dart';
 import 'package:dcex/shared/presentation/widgets/async_section.dart';
 import 'package:dcex/features/details/presentation/widgets/line_widget.dart';
+import 'package:dcex/shared/ws_manager_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -82,7 +84,7 @@ class PairTitleWidget extends ConsumerWidget {
               Consumer(
                 builder: (BuildContext context, WidgetRef ref, Widget? child) {
                   final summary = ref.watch(pairSummaryProvider(pair));
-                  // final summary = ref.watch(pairSummaryWsProvider(pair.pair));
+                  final summary1 = ref.watch(pairSummaryWsProvider(pair.pair));
                   return AsyncSection(
                     value: summary,
                     builder: (TickerEntity data) {

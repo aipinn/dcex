@@ -1,3 +1,5 @@
+import 'dart:math';
+
 class APIConst {
   static final pair = '/api/pairs';
   static final pairSummary = '/api/summary';
@@ -19,20 +21,19 @@ extension WsEndpointExtension on WsEndpoint {
     switch (this) {
       case WsEndpoint.ticker:
         return "/api/ws/ticker";
-      default:
-        return '';
+      case WsEndpoint.orderbook:
+        return "/api/ws/orderbook";
+      case WsEndpoint.trades:
+        return "/api/ws/trades";
+      case WsEndpoint.ohlc:
+        return "/api/ws/ohlc";
     }
   }
 
   String endpointPath(String? exchange) {
-    switch (this) {
-      case WsEndpoint.ticker:
-        if (exchange != null) {
-          return '/api/ws/ticker?exchange=$exchange';
-        }
-        return "/api/ws/ticker";
-      default:
-        return '';
+    if (exchange != null) {
+      return '$endpoint?exchange=$exchange';
     }
+    return endpoint;
   }
 }

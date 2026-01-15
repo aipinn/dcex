@@ -1,10 +1,10 @@
 import 'package:dcex/core/model/api_response_parse.dart';
 import 'package:dcex/core/result.dart';
+import 'package:dcex/features/details/data/models/orderbook/orderbook/order_book.dart';
 import 'package:dcex/shared/network/api_const.dart';
 import 'package:dcex/constants/data_exceptions.dart';
 import 'package:dcex/features/details/data/models/graph/graph/graph.dart';
 import 'package:dcex/features/details/data/models/graph/graph_response/graph_response.dart';
-import 'package:dcex/features/details/data/models/orderbook/orderbook_response/orderbook_response.dart';
 import 'package:dcex/features/details/data/models/trades/trade/trade.dart';
 import 'package:dcex/features/details/data/models/trades/trade_response.dart/trade_response.dart';
 import 'package:dcex/features/details/domain/deatils_repository_api.dart';
@@ -22,10 +22,7 @@ class DetailsRepositoryImpl implements DetailsRepositoryApi {
   DetailsRepositoryImpl(this.dio);
 
   @override
-  Future<Result<OrderbookResponse>> getOrderBook(
-    String exchange,
-    String pair,
-  ) async {
+  Future<Result<OrderBook>> getOrderBook(String exchange, String pair) async {
     // logInfo('===> Request get orderbook.');
     try {
       final response = await dio.get(
@@ -33,9 +30,9 @@ class DetailsRepositoryImpl implements DetailsRepositoryApi {
         queryParameters: {"exchange": exchange, "symbol": pair, "limit": 50},
       );
 
-      final apiResponse = parseApiResponse<OrderbookResponse>(
+      final apiResponse = parseApiResponse<OrderBook>(
         response.data,
-        OrderbookResponse.fromJson,
+        OrderBook.fromJson,
       );
       final data = apiResponse.data;
       if (data != null) {
@@ -59,7 +56,15 @@ class DetailsRepositoryImpl implements DetailsRepositoryApi {
         APIConst.trades,
         queryParameters: {'exchange': market, 'symbol': pair, 'limit': limit},
       );
-      return TradeResponse.fromJson(response.data).result!;
+      final apiResponse = parseApiResponse(
+        response.data,
+        TradeResponse.fromJson,
+      );
+      final data = apiResponse.data;
+      if (data != null) {
+        return data.result!;
+      }
+      throw DataExceptions(apiResponse.msg);
     } on DioException catch (error) {
       throw DataExceptions('message: ${error.message}');
     }

@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dcex/constants/app_constants.dart';
 import 'package:dcex/core/model/api_response.dart';
-import 'package:dcex/core/model/api_response_parse.dart';
 import 'package:dcex/shared/utils/logger.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -195,5 +194,6 @@ class WsService {
     _manuallyClosed = true;
     // Proactively close connect
     _transport.close();
+    logWarning('⚠️  ws close manually. ⚠️');
   }
 }

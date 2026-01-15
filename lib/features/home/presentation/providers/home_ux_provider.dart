@@ -1,7 +1,7 @@
 import 'package:dcex/features/details/data/models/markets/pair/pair.dart';
 import 'package:dcex/features/home/providers/home_provider.dart';
 import 'package:dcex/shared/ws_ticker_manager.dart';
-import 'package:dcex/shared/ws_ticker_manager_provider.dart';
+import 'package:dcex/shared/ws_manager_provider.dart';
 import 'package:dcex/shared/utils/logger.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -2,12 +2,6 @@
 // import 'package:dcex/shared/ws_service.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// final wsServiceProvider = FutureProvider<WsService>((ref) async {
-//   final service = WsService(IoWebSocketTransport(endpoint: WsEndpoint.ticker));
-//   await service.connect();
-//   return service;
-// });
-
 import 'dart:async';
 import 'package:dcex/shared/network/api_const.dart';
 import 'package:dcex/features/settings/providers/settings_provider.dart';
@@ -18,13 +12,16 @@ import 'package:dcex/shared/utils/logger.dart';
 /// StreamNotifierProvider 管理 WebSocket
 /// 自动根据 settingsProvider 的交易所变化切换
 final wsServiceStreamProvider =
-    StreamNotifierProvider<WsServiceNotifier, WsService?>(
-      WsServiceNotifier.new,
+    StreamNotifierProvider.family<WsServiceNotifier, WsService?, WsEndpoint>(
+      (endpoint) => WsServiceNotifier(endpoint: endpoint),
     );
 
 class WsServiceNotifier extends StreamNotifier<WsService?> {
   WsService? _service;
   String? _currentExchange;
+  final WsEndpoint _endpoint;
+
+  WsServiceNotifier({required WsEndpoint endpoint}) : _endpoint = endpoint;
 
   @override
   Stream<WsService?> build() async* {
@@ -47,7 +44,7 @@ class WsServiceNotifier extends StreamNotifier<WsService?> {
 
     // 创建新服务
     final service = WsService(
-      IoWebSocketTransport(endpoint: WsEndpoint.ticker.endpointPath(exchange)),
+      IoWebSocketTransport(endpoint: _endpoint.endpointPath(exchange)),
     );
 
     try {
@@ -69,14 +66,14 @@ class WsServiceNotifier extends StreamNotifier<WsService?> {
     });
   }
 
-  /// 可选：手动切换交易所（非主路径）
+  /// 手动切换交易所
   Future<void> switchExchange(String exchange) async {
     if (_currentExchange == exchange && _service != null) return;
 
     await _service?.close();
 
     final service = WsService(
-      IoWebSocketTransport(endpoint: WsEndpoint.ticker.endpointPath(exchange)),
+      IoWebSocketTransport(endpoint: _endpoint.endpointPath(exchange)),
     );
 
     try {

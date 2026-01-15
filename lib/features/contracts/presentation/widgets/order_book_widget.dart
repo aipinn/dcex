@@ -1,7 +1,9 @@
 import 'dart:math';
 import 'package:dcex/core/theme/app_theme.dart';
 import 'package:dcex/features/contracts/presentation/providers/futures_market_provider.dart';
+import 'package:dcex/features/contracts/presentation/providers/futures_ws_provider.dart';
 import 'package:dcex/features/details/presentation/widgets/order_book_tile.dart';
+import 'package:dcex/shared/presentation/widgets/async_section.dart';
 import 'package:dcex/shared/presentation/widgets/dash_line.dart';
 import 'package:dcex/shared/utils/logger.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +15,6 @@ class OrderBookWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final orderBook = ref.watch(usdtFutureOrderBookProvider);
     final ticker = ref.watch(currentInverseEntityProvider);
 
     logInfo(
@@ -120,22 +121,42 @@ class OrderBookWidget extends ConsumerWidget {
               ),
             ],
           ),
+
           const SizedBox(height: 8),
+
           // Asks (Sell orders) - Red
-          ...orderBook.asks.reversed
-              .take(7)
-              .map(
-                (ask) => GestureDetector(
-                  onTap: () => _updatePrice(ref, ask.price),
-                  child: OrderBookTile(
-                    left: ask.price,
-                    right: ask.amount,
-                    color: trade.sell,
-                    length: Random().nextDouble(),
-                    align: OrderDepthAlign.end,
-                  ),
-                ),
-              ),
+          Consumer(
+            builder: (BuildContext context, WidgetRef ref, Widget? child) {
+              final item = ref.watch(currentInverseEntityProvider);
+              final orderbook = ref.watch(
+                futureOrderbookWsProvider(item.symbol),
+              );
+              return AsyncSection(
+                value: orderbook,
+                builder: (data) {
+                  return Column(
+                    children: [
+                      ...data.asks.reversed
+                          .take(7)
+                          .map(
+                            (ask) => GestureDetector(
+                              onTap: () => _updatePrice(ref, ask.price),
+                              child: OrderBookTile(
+                                left: ask.price,
+                                right: ask.amount,
+                                color: trade.sell,
+                                length: Random().nextDouble(),
+                                align: OrderDepthAlign.end,
+                              ),
+                            ),
+                          ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+
           const SizedBox(height: 6),
           // Current Price
           GestureDetector(
@@ -175,21 +196,40 @@ class OrderBookWidget extends ConsumerWidget {
           DashedLine(dashWidth: 3, dashSpace: 3, height: 1),
 
           const SizedBox(height: 12),
+
           // Bids (Buy orders) - Green
-          ...orderBook.bids
-              .take(9)
-              .map(
-                (bid) => GestureDetector(
-                  onTap: () => _updatePrice(ref, bid.price),
-                  child: OrderBookTile(
-                    left: bid.price,
-                    right: bid.amount,
-                    color: trade.buy,
-                    length: Random().nextDouble(),
-                    align: OrderDepthAlign.end,
-                  ),
-                ),
-              ),
+          Consumer(
+            builder: (BuildContext context, WidgetRef ref, Widget? child) {
+              final item = ref.watch(currentInverseEntityProvider);
+              final orderbook = ref.watch(
+                futureOrderbookWsProvider(item.symbol),
+              );
+              return AsyncSection(
+                value: orderbook,
+                builder: (data) {
+                  return Column(
+                    children: [
+                      ...data.bids
+                          .take(7)
+                          .map(
+                            (bid) => GestureDetector(
+                              onTap: () => _updatePrice(ref, bid.price),
+                              child: OrderBookTile(
+                                left: bid.price,
+                                right: bid.amount,
+                                color: trade.buy,
+                                length: Random().nextDouble(),
+                                align: OrderDepthAlign.end,
+                              ),
+                            ),
+                          ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+
           const SizedBox(height: 12),
           // Long/Short ratio bar
           Row(

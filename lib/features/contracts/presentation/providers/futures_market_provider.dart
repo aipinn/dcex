@@ -2,16 +2,14 @@ import 'dart:async';
 import 'package:dcex/core/enums/futures_market_type.dart';
 import 'package:dcex/core/enums/margin_mode.dart';
 import 'package:dcex/features/contracts/domain/entities/contract_market.dart';
+import 'package:dcex/features/contracts/presentation/providers/futures_ws_provider.dart';
 import 'package:dcex/features/contracts/presentation/providers/temp_models.dart';
 import 'package:dcex/features/contracts/providers/contract_market_providers.dart';
 import 'package:dcex/features/details/data/models/orderbook/orderbook/order_book.dart';
 import 'package:dcex/features/details/data/models/orderbook/price/price.dart';
 import 'package:dcex/features/settings/providers/settings_provider.dart';
 import 'package:dcex/shared/market/domain/entities/futures_ticker.dart';
-import 'package:dcex/shared/market/domain/entities/ticker.dart';
-import 'package:dcex/shared/ws_ticker_manager_provider.dart';
 import 'package:dcex/shared/utils/count_down.dart';
-import 'package:dcex/shared/utils/logger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:dcex/core/result.dart';
@@ -172,39 +170,6 @@ class UsdtMarginMode extends _$UsdtMarginMode {
   }
 }
 
-// USDT Future OrderBook Provider
-@riverpod
-class UsdtFutureOrderBook extends _$UsdtFutureOrderBook {
-  @override
-  build() {
-    return OrderBook(
-      [
-        const Price(price: 0.22688, amount: 1250),
-        const Price(price: 0.22687, amount: 4850),
-        const Price(price: 0.22686, amount: 151),
-        const Price(price: 0.22685, amount: 2960),
-        const Price(price: 0.22684, amount: 13730),
-        const Price(price: 0.22683, amount: 8020),
-        const Price(price: 0.22682, amount: 11780),
-        const Price(price: 0.22681, amount: 17670),
-        const Price(price: 0.22680, amount: 40590),
-      ],
-      [
-        const Price(price: 0.22695, amount: 47280),
-        const Price(price: 0.22694, amount: 10220),
-        const Price(price: 0.22693, amount: 44710),
-        const Price(price: 0.22692, amount: 10740),
-        const Price(price: 0.22691, amount: 2420),
-        const Price(price: 0.22690, amount: 1450),
-        const Price(price: 0.22689, amount: 68),
-      ],
-      1234567890,
-      "symbol",
-      DateTime.now().millisecondsSinceEpoch,
-    );
-  }
-}
-
 // Order Form State Provider (下单表单状态)
 @riverpod
 class OrderForm extends _$OrderForm {
@@ -233,29 +198,6 @@ class OrderForm extends _$OrderForm {
     state = state.copyWith(timeInForce: tif);
   }
 }
-
-final pairFutureWsProvider = StreamProvider.autoDispose
-    .family<TickerEntity, String>((ref, symbol) {
-      final managerAsync = ref.watch(wsTickerManagerProvider);
-      ref.onCancel(() {
-        logInfo('Future ws cancel: $symbol');
-      });
-      ref.onAddListener(() {
-        logInfo('Future ws addListener: $symbol');
-      });
-
-      return managerAsync.when(
-        data: (manager) {
-          ref.onDispose(() {
-            logInfo('Future ws dispose: $symbol');
-            manager.unsubscribe(symbol);
-          });
-          return manager.subscribe(symbol);
-        },
-        loading: () => const Stream.empty(),
-        error: (_, __) => const Stream.empty(),
-      );
-    });
 
 /// Current Select Limit Price Provider
 @riverpod
@@ -321,13 +263,5 @@ class UsdtFundingCountdown extends _$UsdtFundingCountdown {
     final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     final remain = _target - now;
     state = Countdown(remain > 0 ? remain : 0);
-  }
-}
-
-@riverpod
-class UsdtMarginOrderbookWs extends _$UsdtMarginOrderbookWs {
-  @override
-  build() {
-    final managerAsync = ref.watch(wsTickerManagerProvider);
   }
 }

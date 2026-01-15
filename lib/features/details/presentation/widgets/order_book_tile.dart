@@ -1,3 +1,4 @@
+import 'package:dcex/shared/utils/number_format.dart';
 import 'package:flutter/material.dart';
 
 enum OrderDepthAlign { start, end }
@@ -45,9 +46,7 @@ class OrderBookTile extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6),
               child: Text(
-                align == OrderDepthAlign.end
-                    ? "${(left / 1e3).toStringAsFixed(2)}k"
-                    : left.toString(),
+                formatMarketNumber(left),
                 style: TextStyle(
                   fontSize: 16,
                   color: align == OrderDepthAlign.end
@@ -59,9 +58,7 @@ class OrderBookTile extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6),
               child: Text(
-                align == OrderDepthAlign.start
-                    ? "${(right / 1e3).toStringAsFixed(2)}k"
-                    : right.toString(),
+                formatMarketNumber(right),
                 style: TextStyle(
                   fontSize: 16,
                   color: align == OrderDepthAlign.start

@@ -11,6 +11,9 @@ abstract class OrderBook with _$OrderBook {
     int nonce,
     String symbol,
     int timestamp,
+    String action,
+    String marketType,
+    String exchange,
   ) = _OrderBook;
 
   factory OrderBook.fromJson(Map<String, dynamic> json) {
@@ -20,6 +23,19 @@ abstract class OrderBook with _$OrderBook {
     final nonce = json['nonce'];
     final symbol = json['symbol'];
     final timestamp = json['timestamp']; // ms
-    return OrderBook(asks, bids, nonce, symbol, timestamp);
+    final action = json['action'];
+    final marketType = json['marketType'];
+    final exchange = json['exchange'];
+
+    return OrderBook(
+      asks,
+      bids,
+      nonce,
+      symbol,
+      timestamp,
+      action,
+      marketType,
+      exchange,
+    );
   }
 }
